@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DTI232 กระดาษ A4 เข้าห้องสอบ (แก้ไขได้)</title>
+<style>
+@font-face{font-family:P;src:url(fonts/ibm-plex-sans-thai-thai-400-normal.woff2);font-weight:400;unicode-range:U+0E00-0E7F}
+@font-face{font-family:P;src:url(fonts/ibm-plex-sans-thai-thai-600-normal.woff2);font-weight:600;unicode-range:U+0E00-0E7F}
+@font-face{font-family:P;src:url(fonts/ibm-plex-sans-thai-thai-700-normal.woff2);font-weight:700;unicode-range:U+0E00-0E7F}
+@font-face{font-family:P;src:url(fonts/ibm-plex-sans-thai-latin-400-normal.woff2);font-weight:400}
+@font-face{font-family:P;src:url(fonts/ibm-plex-sans-thai-latin-600-normal.woff2);font-weight:600}
+@font-face{font-family:P;src:url(fonts/ibm-plex-sans-thai-latin-700-normal.woff2);font-weight:700}
+@font-face{font-family:M;src:url(fonts/ibm-plex-mono-latin-400-normal.woff2);font-weight:400}
+@font-face{font-family:M;src:url(fonts/ibm-plex-mono-latin-600-normal.woff2);font-weight:600}
+@page{size:A4 landscape;margin:0}
+:root{--fs:8.4pt}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:#d9dde3;font-family:P,"Sukhumvit Set",Tahoma,sans-serif;color:#111}
+.bar{position:sticky;top:0;z-index:9;background:#1B2A4A;color:#fff;padding:8px 14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:14px}
+.bar button{font:inherit;border:0;border-radius:6px;padding:5px 10px;cursor:pointer;background:#fff;color:#1B2A4A;font-weight:600}
+.bar .st{margin-left:auto}
+.bar .warn{background:#FFD84D;color:#111;padding:3px 8px;border-radius:6px;font-weight:600}
+.page{width:297mm;height:210mm;margin:12px auto;background:#fff;padding:6mm 7mm;display:grid;grid-template-columns:1fr 1fr;gap:5mm;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.col{overflow:hidden;font-size:var(--fs);line-height:1.33;outline:none}
+.col.over{box-shadow:inset 0 -6px 0 #e11d48}
+h1{font-size:1.2em;margin:0 0 .5mm;padding:.5mm 2mm;background:#1B2A4A;color:#fff;border-radius:1mm;font-weight:700}
+h2{font-size:1.02em;margin:1.2mm 0 .3mm;font-weight:700;border-bottom:.3mm solid #1B2A4A}
+p{margin:.25mm 0}
+ul,ol{margin:.2mm 0;padding-left:4mm}li{margin:0}
+pre{font-family:M,P,monospace;font-size:.9em;line-height:1.26;margin:.5mm 0;padding:.8mm 1.4mm;background:#f2f4f7;border-radius:1mm;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%;font-size:.95em;margin:.5mm 0}
+td,th{border:.2mm solid #9aa3ae;padding:.2mm 1mm;text-align:left;vertical-align:top}
+th{background:#e8ebf0;font-weight:600}
+.box{background:#f2f4f7;border-radius:1mm;padding:.8mm 1.6mm;margin:.5mm 0}
+b{font-weight:700}
+@media print{
+  body{background:#fff}.bar{display:none}
+  .page{margin:0;box-shadow:none;page-break-after:always}.page:last-child{page-break-after:auto}
+  .col.over{box-shadow:none}
+}
+</style></head><body>
+<div class="bar" id="bar">
+  <b>A4 เข้าห้องสอบ — คลิกที่ข้อความเพื่อแก้ไขได้เลย</b>
+  <button onclick="fs(-0.1)">ตัวอักษร −</button><button onclick="fs(0.1)">ตัวอักษร +</button>
+  <button onclick="autofit()">ปรับให้เต็มพอดีหน้า</button>
+  <button onclick="window.print()">พิมพ์ / บันทึก PDF</button>
+  <button onclick="saveFile()">บันทึกไฟล์ที่แก้แล้ว</button>
+  <button onclick="resetEdits()">ล้างการแก้ไข</button>
+  <span class="st" id="st"></span>
+</div>
+
+<style>
+.g2{display:grid;grid-template-columns:auto 1fr;gap:2mm;align-items:start}
+.g3{display:grid;grid-template-columns:1fr 1fr;gap:1.5mm}
+svg{display:block}
+.sub{font-weight:700}
+</style>
+<!-- ======================= ด้านหน้า : สัปดาห์ 1 + 2 ======================= -->
+<div class="page">
+<div class="col" contenteditable="true">
+<h1>สัปดาห์ 1 · ปัญหาเชิงการคำนวณ → ข้อสอบส่วนที่ 1 (22)</h1>
+<div class="box"><b>กติกาข้อ 5:</b> เขียนความหมายของปัญหาเป็นภาษาธรรมดาก่อน แล้วค่อยใช้สัญลักษณ์/ชื่ออัลกอริทึม · <b>เวลา:</b> ส่วน 1 ~25 · ส่วน 2 ~33 · ส่วน 3 ~28 · ส่วน 4 ~30 นาที</div>
+<h2>ลำดับเขียนคำตอบ (ใบตัดสินใจ น.70–72)</h2>
+<p>① ความหมายปัญหา → ② Input/Output/ข้อจำกัด/กรณีขอบเขต → ③ โครงสร้างข้อมูล + เหตุผล → ④ ขั้นตอนวิธี → ⑤ ไล่ตัวอย่าง → ⑥ บิกโอ (บอกว่านับอะไร) → ⑦ 3E + "ถ้า… ใช้… แต่ถ้า… ใช้…"</p>
+<h2>แม่แบบ Input / Output</h2>
+<pre>ปัญหา : "ปัญหานี้คือการ ___ เพื่อให้ ___ โดยมีข้อจำกัดว่า ___"
+Input : กำหนดให้ C = {c1, c2, …, cN} เป็นเซตของ ___ โดยที่ ci = (รหัส, ___, ___)
+Output: ___ โดยที่ ___        เช่น  C' = {c'1 ≤ c'2 ≤ … ≤ c'N}  /  ตำแหน่ง หรือ null
+Constraints : ขนาดสูงสุด · ความจุ · ทรัพยากรที่ใช้พร้อมกันได้ (ประตูเดียว ทีละคน)
+Edge cases  : ไม่มีข้อมูล · มี 1 ตัว · ซ้ำหมด · ติดลบหมด · ไม่พบ · เกินความจุ · รหัสซ้ำ
+Expected    : ต้องจบการทำงาน · ไม่มีข้อมูลหาย/นับซ้ำ</pre>
+<h2>นิยามปัญหาให้ถูกจุด</h2>
+<table><tr><th>สิ่งที่เห็น</th><th>กลไก</th><th>เป้าหมาย</th></tr>
+<tr><td>ประตูเป็นรู</td><td>สัตว์ร้ายเข้าถึงไก่</td><td>ไก่ปลอดภัย</td></tr></table>
+<p>ซ่อมประตู = <b>แก้สาเหตุ</b> · ย้ายไก่ไปลำปาง = แก้เป้าหมายแต่<b>ย้ายปัญหา</b> (ยกเว้นโรงเรือนเสี่ยงถล่ม) · อัลกอริทึมตอบโจทย์ที่เรานิยาม ไม่ได้รับรองว่านิยามถูก</p>
+<h2>กรอบ 3E</h2>
+<table><tr><th>E</th><th>ถามว่า</th><th>ตัวอย่างย้ายไก่</th></tr>
+<tr><td>Efficacy ทำได้ตามทฤษฎี</td><td>พิสูจน์ได้ไหมว่าทำได้</td><td>ย้ายครบถึงปลายทางได้ไหม</td></tr>
+<tr><td>Effectiveness ได้ผลจริง</td><td>ตรงจุด ใช้ได้จริงไหม</td><td>ปลายทางปลอดภัย แก้ปัญหาหลักไหม</td></tr>
+<tr><td>Efficiency คุ้มค่า</td><td>เทียบกับวิธีใด ทรัพยากรใด</td><td>รถ กรง น้ำมัน เวลา vs ซ่อมประตู</td></tr></table>
+<p>"มีประสิทธิภาพ" ต้องบอกว่า<b>เทียบกับอะไร</b>และ<b>ทรัพยากรใด</b> · แบบจำลองมักละ: ระยะทาง ประตู/คอขวด ความจุกรง การสื่อสาร ค่าเชื้อเพลิง สวัสดิภาพสัตว์ ความปลอดภัยปลายทาง รถเสีย</p>
+<h2>แบบจำลองขนานของการย้ายไก่ (น.13)</h2>
+<pre>ไก่ N ตัว คนงาน p คน (สมมติไม่ชนกัน ปลายทางพร้อม)
+Tp(N) = Θ(⌈N/p⌉)   W(N) = p·Tp(N) = Θ(N)   N = p = 1,000 → Θ(1)
+แต่ประตูเดียว ผ่านทีละคน → ขนออกเป็นงานลำดับ → Tp ≈ Θ(N)</pre>
+<h2>เลือกโครงสร้างข้อมูลตามงาน</h2>
+<table><tr><th>งาน</th><th>โครงสร้าง</th><th>ต้นทุน</th></tr>
+<tr><td>มาก่อนได้ก่อน (คิวฉีดวัคซีน)</td><td>คิว FIFO</td><td>เข้า/ออก Θ(1)</td></tr>
+<tr><td>ยกเลิกขั้นล่าสุด</td><td>สแต็ก LIFO</td><td>Θ(1)</td></tr>
+<tr><td>ค้นรหัสตรงตัว / เคยมีแล้วหรือยัง</td><td>Dict / เซตแฮช</td><td>Θ(1) เฉลี่ย (ต้องจัดการแฮชชน)</td></tr>
+<tr><td>ค้นบ่อยบนข้อมูลเรียง</td><td>แถวลำดับ + binary search</td><td>Θ(log n)</td></tr>
+<tr><td>รวมรายการเรียงแล้ว 2 ชุด</td><td>ตัวชี้ 2 ตัว</td><td>Θ(n + m)</td></tr>
+<tr><td>ค่ามากสุดของข้อมูลไหลเข้า</td><td>ตัวแปรสรุป 1 ตัว</td><td>พื้นที่ Θ(1)</td></tr>
+<tr><td>ความสัมพันธ์ / เส้นทาง</td><td>กราฟ G = (V, E)</td><td>ดูสัปดาห์ 4</td></tr></table>
+<p>การแทนข้อมูล: เซต (มี/ไม่มี) · กราฟ (ความสัมพันธ์) · เมทริกซ์ (พิกัด) · Dict (คุณลักษณะ) · จำนวนเต็ม (ปริมาณ)</p>
+<h2>ความถูกต้อง</h2>
+<table><tr><th>คำ</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr>
+<tr><td>Precondition</td><td>ต้องจริงก่อนเริ่ม</td><td>binary search: รายการเรียงแล้ว</td></tr>
+<tr><td>Postcondition</td><td>รับประกันเมื่อจบ</td><td>คืนตำแหน่ง หรือ "ไม่พบ"</td></tr>
+<tr><td>Invariant</td><td>จริงทุกรอบ</td><td>ค้นทีละตัว: "ก่อนตำแหน่ง i ไม่ใช่คำตอบ" · ย้ายไก่: ตรวจแล้ว + ยังไม่ตรวจ = 1,000</td></tr>
+<tr><td>Counterexample</td><td>ตัวอย่างเดียวที่ค้าน</td><td>หา max เริ่มที่ 0 ผิดเมื่อติดลบหมด</td></tr></table>
+<p>ถูกต้อง = (1) จบแล้วคำตอบถูก และ (2) ต้องหยุดทำงาน · หา max: [3,7,2,9,5] → max 3→7→7→9→9 เริ่มจากตัวแรกเสมอ</p>
+</div>
+
+<div class="col" contenteditable="true">
+<h1>สัปดาห์ 2 · การวิเคราะห์ประสิทธิภาพ → ข้อสอบส่วนที่ 4 (26)</h1>
+<h2>แบบจำลองแรม (RAM) — นับอะไรเป็น 1 หน่วย</h2>
+<p>1 หน่วย: + − × ÷ mod เปรียบเทียบ if อ่าน/เขียนตัวแปร · <b>ไม่ใช่ 1 หน่วย:</b> ลูป การเรียกฟังก์ชัน เช่น sort (นับตามรอบ) · ไม่แสดง: แคช ขนาดคำ ตำแหน่งข้อมูลจริง พลังงาน · <b>บิกโอไม่ใช่เวลาจริง</b></p>
+<h2>ตารางการเติบโต</h2>
+<table><tr><th>n</th><th>1</th><th>2</th><th>4</th><th>8</th><th>16</th><th>1,024</th><th>10⁶</th></tr>
+<tr><td>O(1)</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>O(log₂n)</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>10</td><td>≈20</td></tr>
+<tr><td>O(n)</td><td>1</td><td>2</td><td>4</td><td>8</td><td>16</td><td>1,024</td><td>10⁶</td></tr>
+<tr><td>O(n log n)</td><td>0</td><td>2</td><td>8</td><td>24</td><td>64</td><td>10,240</td><td>≈2×10⁷</td></tr>
+<tr><td>O(n²)</td><td>1</td><td>4</td><td>16</td><td>64</td><td>256</td><td>≈10⁶</td><td>10¹²</td></tr>
+<tr><td>O(2ⁿ)</td><td>2</td><td>4</td><td>16</td><td>256</td><td>65,536</td><td>–</td><td>–</td></tr></table>
+<table><tr><th>ถ้า n เพิ่ม</th><th>O(log n)</th><th>O(n)</th><th>O(n log n)</th><th>O(n²)</th><th>O(n³)</th></tr>
+<tr><td>× 2</td><td>+1</td><td>×2</td><td>×2 นิด ๆ</td><td>×4</td><td>×8</td></tr>
+<tr><td>× 10</td><td>+3.3</td><td>×10</td><td>≈×12</td><td>×100</td><td>×1,000</td></tr></table>
+<h2>O, Θ, Ω (ตามอาจารย์)</h2>
+<pre>t = f(n) ≈ a·nˣ + b          O = ขอบบน = worst   Θ = ขอบแน่น = average   Ω = ขอบล่าง = best
+f(n) = O(g(n)) ⇔ มีจุด c บนแกน n ที่ตั้งแต่ c เป็นต้นไป g(n) อยู่เหนือ f(n)
+3n² + 100n + 6 = O(n²)      4n² + 300n + 50 = O(n²)      5n³ + 2n² + 7 = O(n³)
+2n log n + 5n = O(n log n)   3n² − 100n + 6 = Ω(n)  (c = 100)     42 = O(1)</pre>
+<h2>หาบิกโอจากซูโดโค้ด</h2>
+<div class="g3">
+<pre>① x ← 0                   1
+② FOR i ← 1 TO n         ┐
+③   FOR j ← 1 TO n       │ n×n
+④     x ← x + 1          ┘
+⑤ FOR k ← 1 TO n         n
+⑥   x ← x − 1
+T(n) = n² + n + 1 = Θ(n²)</pre>
+<pre>i ← 1
+WHILE i &lt; n              log₂n รอบ
+   i ← 2 × i
+─────────────
+FOR i ← 1 TO n
+  FOR j ← i+1 TO n       n(n−1)/2
+    เทียบ L[i], L[j]      = Θ(n²)</pre>
+</div>
+<p><b>ลูปซ้อน = คูณ · ลูปต่อกัน = บวก แล้วเก็บตัวใหญ่ · หารครึ่ง/คูณสองทุกรอบ = log n</b></p>
+<h2>แถวลำดับ vs รายการเชื่อมโยง (ตาราง น.18)</h2>
+<table><tr><th>การดำเนินการ</th><th>Array</th><th>Linked</th></tr>
+<tr><td>อ่านตำแหน่ง i</td><td>Θ(1)</td><td>Θ(n)</td></tr>
+<tr><td>ค้นจากค่า (ไม่เรียง/ไม่มีดัชนี)</td><td>Θ(n)</td><td>Θ(n)</td></tr>
+<tr><td>แทรก ณ ตำแหน่งที่รู้</td><td>Θ(n)</td><td>Θ(1)</td></tr></table>
+<p>ค้นบ่อย เพิ่มท้ายวันละครั้ง → Array (เรียงไว้ค้นแบบแบ่งครึ่ง Θ(log n))</p>
+<h2>ใช้อัตราการเติบโตเลือกวิธี (สมมติ 10⁸ ครั้ง/วินาที)</h2>
+<table><tr><th>ตรวจรหัสซ้ำ n = 10⁶</th><th>บิกโอ</th><th>ครั้ง</th><th>เวลา</th><th>พื้นที่เพิ่ม</th></tr>
+<tr><td>เทียบทุกคู่</td><td>n(n−1)/2 = Θ(n²)</td><td>5×10¹¹</td><td>≈83 นาที</td><td>Θ(1)</td></tr>
+<tr><td>เรียงแล้วดูคู่ติดกัน</td><td>Θ(n log n)</td><td>2×10⁷</td><td>≈0.2 วิ</td><td>ได้บัญชีเรียง</td></tr>
+<tr><td>เซตแฮช</td><td>Θ(n) เฉลี่ย</td><td>10⁶</td><td>≈0.01 วิ</td><td>Θ(n)</td></tr></table>
+<table><tr><th>ค้น k ครั้ง จาก n = 10⁶</th><th>สูตร</th><th>k = 1</th><th>k = 10</th><th>k = 1,000</th></tr>
+<tr><td>ค้นทีละรายการ</td><td>k·n</td><td><b>10⁶</b></td><td><b>10⁷</b></td><td>10⁹</td></tr>
+<tr><td>เรียง 1 ครั้ง + แบ่งครึ่ง</td><td>n log n + k(log n + 1)</td><td>2×10⁷</td><td>2×10⁷</td><td><b>2×10⁷</b></td></tr></table>
+<p><b>จุดเปลี่ยน k ≈ log₂n ≈ 20</b> → ค้นน้อยไม่ต้องเรียง ค้นเยอะเรียงก่อน · n เล็ก (เช่น 20) ทุกวิธีเร็วพอ เลือกวิธีง่าย</p>
+<h2>แบบจำลองขนาน (สูตร น.20)</h2>
+<pre>Sp = T1/Tp   Ep = Sp/p   W = p·Tp   T∞ = สายงานรอกันยาวสุด   work-optimal ⇔ W = Θ(T1)
+T1=64 p=8 Tp=12 → Sp≈5.33 Ep≈0.67 W=96 > 64 (มีงานเกิน)
+รวม 8 ค่า [5,8,4,7,6,3,9,2]: รอบ1 4 งาน → รอบ2 2 → รอบ3 1  ⇒ W = 7 = Θ(n), T∞ = 3 = log₂n
+Tp = O(n/p + log n)   ·   Ep ≠ ความคุ้มค่าตาม 3E
+EREW อ่าน/เขียนห้ามซ้ำ · CREW อ่านร่วมได้ · CRCW อ่านเขียนร่วมได้ (ต้องมีกฎตัดสิน)</pre>
+</div>
+</div>
+
+<!-- ======================= ด้านหลัง : สัปดาห์ 3 + 4 ======================= -->
+<div class="page">
+<div class="col" contenteditable="true">
+<h1>สัปดาห์ 3 · การแบ่งแยกและเอาชนะ → ข้อสอบส่วนที่ 2 (28)</h1>
+<h2>หลักการ + ต้นไม้การเรียกซ้ำ</h2>
+<div class="g3">
+<pre>DIVIDE   แบ่งเป็นปัญหาย่อยชนิดเดียวกัน
+CONQUER  เรียกซ้ำจนถึงกรณีฐาน (ตอบได้ทันที)
+COMBINE  รวมคำตอบย่อยกลับ
+ไม่มีกรณีฐาน → เรียกซ้ำไม่จบ
+เหมาะ: แก้แยกได้ รวมง่าย
+ไม่เหมาะ: ปัญหาย่อยซ้ำ → DP</pre>
+<pre>T(n) = 2T(n/2) + n
+ระดับ0        n            งาน n
+ระดับ1     n/2   n/2       งาน n
+ระดับ2  n/4 n/4 n/4 n/4    งาน n
+ …   (log₂n ระดับ)
+รวม = n × log₂n = Θ(n log n)</pre>
+</div>
+<table><tr><th>อัลกอริทึม</th><th>Recurrence</th><th>ผล</th><th>เหตุผล</th></tr>
+<tr><td>Binary search</td><td>T(n)=T(n/2)+Θ(1)</td><td>Θ(log n)</td><td>ทิ้งครึ่งทุกรอบ</td></tr>
+<tr><td>Merge sort</td><td>T(n)=2T(n/2)+Θ(n)</td><td>Θ(n log n)</td><td>log₂n ระดับ × n</td></tr>
+<tr><td>Karatsuba</td><td>T(n)=3T(n/2)+Θ(n)</td><td>Θ(n^1.585)</td><td>3^(log₂n) = n^(log₂3)</td></tr>
+<tr><td>คูณตั้งหลัก</td><td>T(n)=4T(n/2)+Θ(n)</td><td>Θ(n²)</td><td>4^(log₂n) = n²</td></tr></table>
+<h2>Merge Sort — ตัวอย่าง 8 โซน</h2>
+<pre>แบ่ง  [180 95 240 60 | 130 75 150 70]
+      [180 95 | 240 60]      [130 75 | 150 70]
+      [180|95]  [240|60]     [130|75]  [150|70]
+      180 95 240 60 130 75 150 70           ← กรณีฐาน 1 ตัว = เรียงแล้ว
+รวม   [95 180] [60 240]      [75 130] [70 150]      เทียบ 4
+      [60 95 180 240]        [70 75 130 150]        เทียบ 6
+      [60 70 75 95 130 150 180 240]                 เทียบ 6   รวม 16 ≤ n log₂n = 24</pre>
+<pre>MERGE-SORT(L)                          MERGE(A, B)  ← A, B เรียงแล้ว
+1 ถ้า |L| ≤ 1 คืน L       (กรณีฐาน)      1 R ← ว่าง ; i ← 1 ; j ← 1
+2 mid ← ⌊n/2⌋                          2 ขณะ i ≤ |A| และ j ≤ |B|
+3 A ← MERGE-SORT(L[1..mid])            3   ถ้า A[i] ≤ B[j] ต่อ A[i] ; i ← i+1
+4 B ← MERGE-SORT(L[mid+1..n])          4   ไม่งั้น ต่อ B[j] ; j ← j+1
+5 คืน MERGE(A, B)                       5 ต่อที่เหลือของ A หรือ B ; คืน R</pre>
+<p><b>แบบข้อความ (Task 2 ห้ามวาดรูป):</b> 1) แบ่ง C เป็น c1…c⌊N/2⌋ กับที่เหลือ 2) แบ่งซ้ำจนส่วนละ 1 ตัว 3) รวมสองส่วน: เทียบตัวแรกที่ยังไม่เลือก หยิบตัวน้อยกว่า (เท่ากันหยิบซ้าย) ต่อท้าย จนส่วนหนึ่งหมดแล้วต่อที่เหลือ 4) รวมคู่ที่แบ่งมาจากส่วนเดียวกัน จากเล็กไปใหญ่ · พื้นที่เพิ่ม Θ(n)</p>
+<h2>Binary Search</h2>
+<div class="g3">
+<pre>pre: L เรียงแล้ว
+1 low ← 1 ; high ← n
+2 ขณะ low ≤ high
+3   mid ← ⌊(low+high)/2⌋
+4   ถ้า L[mid] = t คืน mid
+5   ถ้า L[mid] &lt; t low ← mid+1
+6   ไม่งั้น high ← mid−1
+7 คืน "ไม่พบ"   ≤ ⌈log₂n⌉+1 ครั้ง</pre>
+<table><tr><th>รอบ</th><th>low</th><th>high</th><th>mid</th><th>L[mid] (หา 100)</th></tr>
+<tr><td>1</td><td>1</td><td>8</td><td>4</td><td>90 &lt; → low 5</td></tr>
+<tr><td>2</td><td>5</td><td>8</td><td>6</td><td>175 &gt; → high 5</td></tr>
+<tr><td>3</td><td>5</td><td>5</td><td>5</td><td>130 &gt; → high 4</td></tr>
+<tr><td>–</td><td>5</td><td>4</td><td colspan="2">low &gt; high → ไม่พบ</td></tr></table>
+</div>
+<p>L = [45, 50, 60, 90, 130, 175, 210, 240] · invariant: ถ้า t มีอยู่ ต้องอยู่ใน L[low..high]</p>
+<h2>Karatsuba (ซูโดโค้ด น.15 · ตาราง 1234×5678 = 7,006,652 น.16)</h2>
+<pre>X = a·10ᵏ + b , Y = c·10ᵏ + d       k = ⌈max(n, m)/2⌉   a = ⌊X/10ᵏ⌋   b = X mod 10ᵏ
+XY = ac·10²ᵏ + (ad+bc)·10ᵏ + bd     ← คูณ 4 ครั้ง
+ad + bc = (a+b)(c+d) − ac − bd      ← เหลือ 3 ครั้ง
+P = ac   Q = bd   R = (a+b)(c+d)   S = R − P − Q   M = P·10²ᵏ + S·10ᵏ + Q</pre>
+<table><tr><th>123 × 45 (หลักคี่ + ไม่เท่า)</th><th>ค่า</th><th>12 × 56</th><th>ค่า</th></tr>
+<tr><td>n=3, m=2 → k=⌈1.5⌉=2</td><td>a=1 b=23 c=0 d=45</td><td>k=1</td><td>a=1 b=2 c=5 d=6</td></tr>
+<tr><td>P = K(1, 0)</td><td>0</td><td>P = 1×5</td><td>5</td></tr>
+<tr><td>Q = K(23, 45): 8, 15, K(5,9)=45 → S=22</td><td>1,035</td><td>Q = 2×6</td><td>12</td></tr>
+<tr><td>R = K(24, 45): 8, 20, K(6,9)=54 → S=26</td><td>1,080</td><td>R = 3×11</td><td>33</td></tr>
+<tr><td>S = 1,080 − 0 − 1,035</td><td>45</td><td>S = 33−5−12</td><td>16</td></tr>
+<tr><td>M = 0 + 45×10² + 1,035</td><td><b>5,535</b></td><td>M = 500+160+12</td><td><b>672</b></td></tr></table>
+<p><b>กับดัก:</b> S <b>×</b> 10ᵏ (ไม่ใช่ +) · R = K(a+b, c+d) · กรณีฐาน n=1 หรือ m=1 → X×Y · เลขสั้นเติม 0 หน้า · <b>เช็ก P=a×c, Q=b×d, R=(a+b)(c+d)</b></p>
+<p><b>คู่สลับลำดับ</b> [2,4,1,3,5] = (2,1)(4,1)(4,3) = 3 · ทุกคู่ Θ(n²) · ระหว่าง merge หยิบจากขวาให้บวกจำนวนที่เหลือฝั่งซ้าย → Θ(n log n)</p>
+</div>
+
+<div class="col" contenteditable="true">
+<h1>สัปดาห์ 4 · อัลกอริทึมสำหรับกราฟ I → ข้อสอบส่วนที่ 3 (24)</h1>
+<p>ถามก่อนเลือกวิธี: เส้น<b>มีทิศ</b>ไหม · <b>มีน้ำหนัก</b>ไหม · <b>เบาบางหรือหนาแน่น</b> · Σdeg = 2|E| · ต้นไม้ n จุด = n−1 เส้น · BFS หาทางสั้นสุดได้<b>เฉพาะกราฟไม่มีน้ำหนัก</b></p>
+<h2>ตัวอย่างเต็ม: กราฟสไลด์หน้า 3 (Task 5) — เมทริกซ์ · รายการ · BFS</h2>
+<div class="g2">
+<svg width="118" height="80" viewBox="0 0 118 80">
+<g stroke="#1B2A4A" stroke-width="1.2">
+<line x1="15" y1="15" x2="59" y2="15"/><line x1="59" y1="15" x2="103" y2="15"/><line x1="15" y1="15" x2="15" y2="65"/>
+<line x1="15" y1="65" x2="59" y2="15"/><line x1="59" y1="15" x2="59" y2="65"/><line x1="59" y1="15" x2="103" y2="65"/>
+<line x1="103" y1="15" x2="59" y2="65"/><line x1="103" y1="15" x2="103" y2="65"/><line x1="15" y1="65" x2="59" y2="65"/><line x1="59" y1="65" x2="103" y2="65"/></g>
+<g fill="#fff" stroke="#1B2A4A" stroke-width="1.2"><circle cx="15" cy="15" r="9"/><circle cx="59" cy="15" r="9"/><circle cx="103" cy="15" r="9"/><circle cx="15" cy="65" r="9"/><circle cx="59" cy="65" r="9"/><circle cx="103" cy="65" r="9"/></g>
+<g font-family="M,monospace" font-size="10" font-weight="600" text-anchor="middle"><text x="15" y="18.5">A</text><text x="59" y="18.5">B</text><text x="103" y="18.5">C</text><text x="15" y="68.5">D</text><text x="59" y="68.5">E</text><text x="103" y="68.5">F</text></g>
+</svg>
+<div class="g3">
+<pre>   A B C D E F deg
+A  0 1 0 1 0 0  2
+B  1 0 1 1 1 1  5
+C  0 1 0 0 1 1  3
+D  1 1 0 0 1 0  3
+E  0 1 1 1 0 1  4
+F  0 1 1 0 1 0  3   Σ=20=2×10</pre>
+<pre>A → B → D → ∅
+B → A → C → D → E → F → ∅
+C → B → E → F → ∅
+D → A → B → E → ∅
+E → B → C → D → F → ∅
+F → B → C → E → ∅   (2E = 20 โหนด)</pre>
+</div></div>
+<p>วาดจากเมทริกซ์: ลากเส้นเฉพาะช่อง 1 ที่อยู่<b>เหนือแนวทแยง</b> · สมมาตร · ทแยง = 0 · ผลรวมแถว = ดีกรี · รายการ: อ่านแถวซ้าย→ขวา ช่อง 1 = โหนด ปิดด้วย ∅ · กราฟมีทิศ: แถว = ขาออก, u→v อยู่ในรายการของ u เท่านั้น (รวม E โหนด)</p>
+<h2>BFS-MATRIX(A, n, s)</h2>
+<pre> 1 FOR i ← 1 TO n  visited[i] ← 0
+ 2 Q ← คิวว่าง ; visited[s] ← 1 ; d[s] ← 0 ; ใส่ s เข้า Q
+ 3 WHILE Q ไม่ว่าง
+ 4    u ← DEQUEUE(Q) ; OUTPUT u
+ 5    FOR v ← 1 TO n                      (List: FOR v ในรายการของ u)
+ 6       IF A[u][v] = 1 AND visited[v] = 0
+ 7          visited[v] ← 1 ; d[v] ← d[u] + 1 ; parent[v] ← u ; ใส่ v เข้า Q
+RAM: แต่ละจุดเข้าคิว 1 ครั้ง (บรรทัด 3 ≤ n รอบ) × สแกนแถว n ช่อง (บรรทัด 5) = Θ(V²)
+     List ตรวจเฉพาะเพื่อนบ้าน Σdeg = 2E → Θ(V + E)</pre>
+<table><tr><th>ขั้น</th><th>นำออก</th><th>พบใหม่</th><th>Q หลังทำงาน</th><th>d</th><th>parent</th></tr>
+<tr><td>เริ่ม</td><td>–</td><td>A</td><td>[A]</td><td>A=0</td><td>–</td></tr>
+<tr><td>①</td><td>A</td><td>B, D</td><td>[B, D]</td><td>B=1, D=1</td><td>B←A, D←A</td></tr>
+<tr><td>②</td><td>B</td><td>C, E, F (D พบแล้ว)</td><td>[D, C, E, F]</td><td>C=E=F=2</td><td>C,E,F←B</td></tr>
+<tr><td>③</td><td>D</td><td>– (E พบแล้ว)</td><td>[C, E, F]</td><td></td><td></td></tr>
+<tr><td>④</td><td>C</td><td>– (E, F พบแล้ว)</td><td>[E, F]</td><td></td><td></td></tr>
+<tr><td>⑤</td><td>E</td><td>– (F พบแล้ว)</td><td>[F]</td><td></td><td></td></tr>
+<tr><td>⑥</td><td>F</td><td>–</td><td>ว่าง</td><td></td><td></td></tr></table>
+<p>ลำดับ <b>A → B → D → C → E → F</b> · ระดับ {A} {B, D} {C, E, F} · ทางสั้นสุด A→F: ย้อน parent F←B←A = <b>A–B–F (2 เส้น)</b> · กราฟ น.26 เริ่ม A: A B C D E F, d[F]=3, A–B–D–F</p>
+<p><b>กติกาไล่:</b> mark ตอน<b>ใส่คิว</b> · d[v] = d[u]+1 · สแกนซ้าย→ขวา (เขียนข้อสมมตินี้) · ไม่ถูกพบ = เข้าถึงไม่ได้ → เริ่ม BFS ใหม่เพื่อนับส่วนประกอบ · เพิ่มเส้น d ลดได้ ไม่เพิ่ม · ชั้นต้องรอกัน + พบจุดซ้ำ + แย่งเขียน → ขนานไม่ได้ Θ((V+E)/p)</p>
+<h2>หนึ่งปัญหา สองโครงสร้าง</h2>
+<table><tr><th></th><th>เมทริกซ์ประชิด</th><th>รายการประชิด</th></tr>
+<tr><td>พื้นที่</td><td>Θ(V²)</td><td>Θ(V + E)</td></tr>
+<tr><td>BFS ทั้งกราฟ</td><td>Θ(V²)</td><td>Θ(V + E)</td></tr>
+<tr><td>u–v เชื่อมไหม</td><td>Θ(1)</td><td>O(deg u)</td></tr>
+<tr><td>เหมาะ</td><td>หนาแน่น / ถามคู่บ่อย</td><td>เบาบาง / เดินหาเส้นทาง</td></tr></table>
+<table><tr><th>สถานการณ์</th><th>E = V×เฉลี่ย÷2</th><th>V²</th><th>V+2E</th><th>เลือก</th></tr>
+<tr><td>หมู่บ้าน 10,000 ถนนเฉลี่ย 3</td><td>15,000</td><td>10⁸</td><td>40,000</td><td><b>List</b> (≈2,500 เท่า)</td></tr>
+<tr><td>ชมรม 500 คน เพื่อนเฉลี่ย 450 + ถามคู่บ่อย</td><td>112,500</td><td>250,000</td><td>225,500</td><td><b>Matrix</b></td></tr></table>
+<p>3E หมู่บ้าน: แทนได้ครบทั้งคู่ · งานจริงคือไล่เพื่อนบ้านหาเส้นทาง List ตรงจุด · ประหยัดพื้นที่และเวลา BFS (10⁸ → 4×10⁴) · ข้อแลก: ถามคู่ u–v บ่อยมาก Matrix เร็วกว่า</p>
+</div>
+</div>
+
+<script>
+const KEY='dti232-a4-v3';
+const cols=[...document.querySelectorAll('.col')];
+function sizes(){return cols.map(c=>parseFloat(c.style.fontSize)||parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fs')))}
+function check(){let bad=0;cols.forEach(c=>{const o=c.scrollHeight>c.clientHeight+1;c.classList.toggle('over',o);if(o)bad++});
+  document.getElementById('st').innerHTML=(bad?`<span class="warn">มี ${bad} คอลัมน์ล้นหน้า (ขีดแดงด้านล่าง) — กด "ปรับให้เต็มพอดีหน้า" หรือตัดข้อความ</span> `:'พอดีหน้า ✔ ')+'ขนาดตัวอักษรแต่ละคอลัมน์: '+sizes().map(s=>s.toFixed(1)).join(' / ')+' pt';return bad}
+function keepFs(){try{localStorage.setItem(KEY+'-fs',JSON.stringify(sizes()))}catch(e){}}
+function fs(d){cols.forEach((c,i)=>c.style.fontSize=(sizes()[i]+d).toFixed(2)+'pt');keepFs();check()}
+function fitOne(c){let lo=5,hi=12;for(let i=0;i<18;i++){const m=(lo+hi)/2;c.style.fontSize=m+'pt';if(c.scrollHeight>c.clientHeight+1)hi=m;else lo=m}c.style.fontSize=(Math.floor(lo*20)/20)+'pt'}
+function autofit(){cols.forEach(fitOne);keepFs();check()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(cols.map(c=>c.innerHTML)))}catch(e){}check()}
+function resetEdits(){if(!confirm('ล้างการแก้ไขทั้งหมดและกลับเป็นต้นฉบับ?'))return;try{localStorage.removeItem(KEY);localStorage.removeItem(KEY+'-fs')}catch(e){}location.reload()}
+function saveFile(){const bar=document.getElementById('bar').outerHTML;const html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;const blob=new Blob([html],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='DTI232_A4_แก้ไขแล้ว.html';a.click()}
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.length===cols.length)cols.forEach((c,i)=>c.innerHTML=s[i]);const f=JSON.parse(localStorage.getItem(KEY+'-fs')||'null');if(Array.isArray(f))cols.forEach((c,i)=>{if(f[i])c.style.fontSize=f[i]+'pt'})}catch(e){}
+cols.forEach(c=>c.addEventListener('input',save));
+document.fonts.ready.then(()=>{let saved=null;try{saved=localStorage.getItem(KEY+'-fs')}catch(e){}if(!saved)autofit();else check()});
+</script>
+</body></html>

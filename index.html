@@ -106,6 +106,22 @@ footer{max-width:1200px;margin:0 auto;padding:0 16px 30px;color:var(--graphite);
 .bar2.left{background:#8FB8F0}.bar2.right{background:#F2B880}.bar2.cmp{background:var(--discovered);outline:2.5px solid var(--ink)}
 .bar2.placed{background:var(--explored)}.bar2.sorted{background:var(--explored)}.bar2.dim{opacity:.35}
 .msg{font-size:1rem;min-height:1.6em;margin:8px 0}
+.kcoach{display:grid;grid-template-columns:minmax(250px,.8fr) minmax(0,1.4fr);gap:12px;margin-top:10px}
+.kcard{border:1.5px solid var(--line);border-radius:10px;padding:12px;background:var(--soft);min-height:150px}
+.kcard h4{margin:0 0 8px;font-size:.95rem;color:var(--graphite)}
+.kbig{font-family:var(--mono);font-size:1.15rem;font-weight:600;overflow-wrap:anywhere}
+.kformula{font-family:var(--mono);font-size:.95rem;line-height:1.8;margin-top:8px}
+.kformula b{background:var(--discovered);color:#1B2A4A;padding:1px 5px;border-radius:4px}
+.ksteps{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:10px 0}
+.kstep{border:1.5px solid var(--line);border-radius:8px;padding:6px;text-align:center;font-size:.82rem;color:var(--graphite);background:var(--paper)}
+.kstep.on{border-color:var(--ink);background:var(--discovered);color:#1B2A4A;font-weight:600}
+.kstep.done{background:color-mix(in srgb,var(--explored) 23%,var(--paper));color:var(--ink)}
+.ktree{border:1.5px solid var(--line);border-radius:10px;padding:10px;overflow-x:auto;min-height:126px;background:var(--paper)}
+.klevel{display:flex;justify-content:center;gap:8px;min-width:max-content;margin:7px 0}
+.knode{border:1.5px solid var(--line);border-radius:8px;padding:5px 9px;min-width:108px;text-align:center;font-family:var(--mono);font-size:.78rem;background:var(--paper);opacity:.55;transition:.2s}
+.knode.seen{opacity:1}.knode.active{background:var(--discovered);color:#1B2A4A;border-color:var(--ink);transform:translateY(-2px)}
+.knode.done{background:color-mix(in srgb,var(--explored) 28%,var(--paper));opacity:1}.knode small{display:block;font-family:var(--sans);color:var(--graphite)}
+@media (max-width:760px){.kcoach{grid-template-columns:1fr}.ksteps{grid-template-columns:repeat(2,1fr)}.kbig{font-size:1rem}}
 .slides{counter-reset:s}
 .sl{display:grid;grid-template-columns:44px 1fr auto;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);align-items:start}
 .sl .n{font-family:var(--mono);color:var(--graphite)}
@@ -231,15 +247,28 @@ Expected   : ต้องจบการทำงาน · ไม่มีข้
   </div>
 
   <div class="sheet">
-    <h3>Karatsuba ทุกการเรียกซ้ำ</h3>
-    <div class="row"><label for="kx">X</label><input type="text" class="mono" id="kx" value="1234" style="width:130px"><label for="ky">Y</label><input type="text" class="mono" id="ky" value="5678" style="width:130px"></div>
+    <h3>Karatsuba แบบแอนิเมชัน</h3>
+    <p class="lead">มองทีละงาน: ผ่าเลข → หา P → หา Q → หา R และ S → ประกอบ M · กล่องสีเหลืองคือการเรียกที่กำลังทำงาน สีเขียวคือคำนวณเสร็จแล้ว</p>
+    <div class="row"><label for="kx">X</label><input type="text" class="mono" id="kx" value="12" style="width:130px"><label for="ky">Y</label><input type="text" class="mono" id="ky" value="56" style="width:130px"></div>
     <div class="row">
       <button class="btn" data-k="12,56">12 × 56</button><button class="btn" data-k="1234,5678">1234 × 5678</button>
       <button class="btn" data-k="123,45">123 × 45 หลักคี่</button><button class="btn" data-k="38,47">38 × 47</button>
       <button class="btn" data-k="1356,2461">1356 × 2461</button><button class="btn main" id="kGo">คำนวณ</button>
     </div>
-    <div class="row"><button class="btn" id="kPrev">ย้อน</button><button class="btn main" id="kNext">เปิดการเรียกถัดไป</button><button class="btn" id="kAll">แสดงทั้งหมด</button></div>
-    <div class="scroll"><table class="t" id="ktable"></table></div><p class="hint" id="ksum"></p>
+    <div class="row">
+      <button class="btn" id="kPrev">ย้อน</button><button class="btn main" id="kPlay">เล่น</button>
+      <button class="btn" id="kNext">ขั้นถัดไป</button><button class="btn" id="kAll">ข้ามไปจบ</button>
+      <label>ความเร็ว <input type="range" id="kSpeed" min="250" max="1800" value="900" style="vertical-align:middle"></label>
+    </div>
+    <div class="ksteps" id="kSteps"></div>
+    <div class="kcoach">
+      <div class="kcard"><h4>ตอนนี้กำลังทำอะไร</h4><div id="kMsg"></div></div>
+      <div class="kcard"><h4>สมุดคำนวณของการเรียกนี้</h4><div id="kCalc"></div></div>
+    </div>
+    <h4 style="margin:14px 0 6px">ต้นไม้การเรียกซ้ำ</h4>
+    <div class="ktree" id="kTree"></div>
+    <p class="hint" id="ksum"></p>
+    <details><summary>ตารางทุกการเรียก (ใช้ลอกแบบลงกระดาษ)</summary><div class="scroll"><table class="t" id="ktable"></table></div></details>
     <details><summary>ความหมาย + ซูโดโค้ด</summary>
 <pre class="code">ผ่าเลข X = a·10^k + b , Y = c·10^k + d
 XY = ac·10^2k + (ad+bc)·10^k + bd       ← ต้องคูณ 4 ครั้ง

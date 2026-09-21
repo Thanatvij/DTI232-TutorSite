@@ -265,24 +265,60 @@ function bsRun(){const L=mSorted,t=Number($('bsT').value);let lo=1,hi=L.length,r
 $('bsGo').onclick=bsRun;
 buildMerge(parseList($('msin').value));
 
-/* ---------- KARATSUBA ---------- */
-let kRows=[],ki=0;const dg=x=>String(x).length;
-function kara(x,y,dep,label){const n=dg(x),m=dg(y);if(n===1||m===1){const r=x*y;kRows.push({dep,label,x,y,base:true,n,m,M:r});return r}
-  const k=Math.ceil(Math.max(n,m)/2),p=10**k,a=Math.floor(x/p),b=x%p,c=Math.floor(y/p),d=y%p,row={dep,label,x,y,n,m,k,a,b,c,d};kRows.push(row);
-  row.P=kara(a,c,dep+1,'P');row.Q=kara(b,d,dep+1,'Q');row.R=kara(a+b,c+d,dep+1,'R');row.S=row.R-row.P-row.Q;row.M=row.P*p*p+row.S*p+row.Q;row.doneAt=kRows.length;return row.M}
-function runK(){const x=parseInt($('kx').value,10),y=parseInt($('ky').value,10);
+/* ---------- KARATSUBA ANIMATION ---------- */
+let kNodes=[],kEvents=[],ki=0,kTimer=null;const dg=x=>String(x).length;
+function kara(x,y,dep,label,parent=null){
+  const id=kNodes.length,n=dg(x),m=dg(y),node={id,parent,dep,label,x,y,n,m,children:[]};kNodes.push(node);
+  kEvents.push({kind:'enter',id});node.enterAt=kEvents.length-1;
+  if(n===1||m===1){node.base=true;node.M=x*y;kEvents.push({kind:'base',id});node.doneAt=kEvents.length-1;return node.M}
+  node.k=Math.ceil(Math.max(n,m)/2);node.pow=10**node.k;
+  node.a=Math.floor(x/node.pow);node.b=x%node.pow;node.c=Math.floor(y/node.pow);node.d=y%node.pow;
+  const before=kNodes.length;node.P=kara(node.a,node.c,dep+1,'P',id);node.children.push(before);kEvents.push({kind:'P',id});
+  const beforeQ=kNodes.length;node.Q=kara(node.b,node.d,dep+1,'Q',id);node.children.push(beforeQ);kEvents.push({kind:'Q',id});
+  const beforeR=kNodes.length;node.R=kara(node.a+node.b,node.c+node.d,dep+1,'R',id);node.children.push(beforeR);kEvents.push({kind:'R',id});
+  node.S=node.R-node.P-node.Q;node.M=node.P*node.pow*node.pow+node.S*node.pow+node.Q;
+  kEvents.push({kind:'combine',id});node.doneAt=kEvents.length-1;return node.M;
+}
+function stopK(){if(kTimer){clearInterval(kTimer);kTimer=null}$('kPlay').textContent='เล่น'}
+function runK(){stopK();const x=parseInt($('kx').value,10),y=parseInt($('ky').value,10);
   if(!(x>=0&&y>=0)||dg(x)>6||dg(y)>6){$('ksum').innerHTML='<span class="bad">ใส่จำนวนเต็มไม่ติดลบ ไม่เกิน 6 หลัก</span>';return}
-  kRows=[];kara(x,y,0,'ระดับ 0');ki=1;renderK()}
-function renderK(){let h='<tr><th>การเรียก</th><th>n, m → k</th><th>a, b | c, d</th><th>P, Q, R</th><th>S = R − P − Q</th><th>M</th></tr>';
-  kRows.slice(0,ki).forEach((r,i)=>{const pad='&nbsp;'.repeat(r.dep*4),done=r.base||ki>=r.doneAt,nm=`<span class="mono">${pad}${r.label}: K(${r.x}, ${r.y})</span>`;
-    if(r.base){h+=`<tr class="${i===ki-1?'now':''}"><td>${nm}</td><td>${r.n}, ${r.m}</td><td colspan="3">กรณีฐาน (มีหลักเดียว) → ${r.x} × ${r.y}</td><td><b>${fmt(r.M)}</b></td></tr>`;return}
-    h+=`<tr class="${i===ki-1?'now':''}"><td>${nm}</td><td>${r.n}, ${r.m} → k = ⌈${Math.max(r.n,r.m)}/2⌉ = ${r.k}</td><td>${r.a}, ${r.b} | ${r.c}, ${r.d}</td>`+
-      (done?`<td>${fmt(r.P)}, ${fmt(r.Q)}, ${fmt(r.R)}</td><td>${fmt(r.R)} − ${fmt(r.P)} − ${fmt(r.Q)} = ${fmt(r.S)}</td><td><b>${fmt(r.P)}×10^${2*r.k} + ${fmt(r.S)}×10^${r.k} + ${fmt(r.Q)} = ${fmt(r.M)}</b></td>`:`<td colspan="3" class="hint">รอผลการเรียกซ้ำด้านล่าง…</td>`)+'</tr>'});
-  $('ktable').innerHTML=h;const t=kRows[0],done=ki===kRows.length;
-  $('ksum').innerHTML=done?`${t.x} × ${t.y} = <b>${fmt(t.M)}</b> ${t.M===t.x*t.y?'<span class="ok">✔ ตรงกับคูณธรรมดา</span>':''} · เรียก ${kRows.length} ครั้ง · ตรวจเอง: P = a×c, Q = b×d, R = (a+b)(c+d)`:`เปิดแล้ว ${ki} จาก ${kRows.length} การเรียก (ตามลำดับที่ถูกเรียก)`;
-  $('kPrev').disabled=ki<=1;$('kNext').disabled=done}
+  kNodes=[];kEvents=[];kara(x,y,0,'เริ่ม');ki=0;renderK()}
+function kStage(kind){return kind==='enter'?0:kind==='P'?1:kind==='Q'?2:kind==='R'?3:kind==='combine'?4:4}
+function splitText(r){const w=2*r.k,sx=String(r.x).padStart(w,'0'),sy=String(r.y).padStart(w,'0');return `${sx.slice(0,-r.k)}|${sx.slice(-r.k)} และ ${sy.slice(0,-r.k)}|${sy.slice(-r.k)}`}
+function eventCopy(e,r){
+  if(e.kind==='enter')return r.base?{title:`เปิด K(${r.x}, ${r.y})`,why:'มีอย่างน้อยหนึ่งจำนวนเป็นเลขหลักเดียว จึงหยุดแบ่งได้'}:{title:`ผ่า K(${r.x}, ${r.y})`,why:`ใช้ k = ⌈max(${r.n}, ${r.m})/2⌉ = ${r.k} และใช้ k เดียวกันกับทั้งสองจำนวน`};
+  if(e.kind==='base')return{title:'ถึงกรณีฐานแล้ว',why:`คูณตรง ๆ: ${r.x} × ${r.y} = ${fmt(r.M)} แล้วส่งค่านี้กลับไปหาการเรียกแม่`};
+  if(e.kind==='P')return{title:`ได้ P = ac = ${fmt(r.P)}`,why:`P บอกส่วนหน้า×ส่วนหน้า ตอนนี้กลับมาที่ K(${r.x}, ${r.y}) เพื่อหา Q ต่อ`};
+  if(e.kind==='Q')return{title:`ได้ Q = bd = ${fmt(r.Q)}`,why:'Q บอกส่วนหลัง×ส่วนหลัง เหลือการคูณครั้งที่สาม R'};
+  if(e.kind==='R')return{title:`ได้ R = (a+b)(c+d) = ${fmt(r.R)}`,why:`ลบ P และ Q ออกจาก R เพื่อหา S = ad+bc`};
+  return{title:`ประกอบกลับได้ M = ${fmt(r.M)}`,why:'วาง P ไว้ส่วนหน้า เลื่อน S ไป k หลัก แล้วเติม Q ส่วนท้าย'};
+}
+function calcCopy(e,r){
+  if(r.base)return `<div class="kbig">${r.x} × ${r.y} = <b>${fmt(r.M)}</b></div><p class="hint">กรณีฐาน: ถ้า n = 1 หรือ m = 1 ให้ return X×Y</p>`;
+  const vals=`a=${r.a}, b=${r.b}, c=${r.c}, d=${r.d}`;
+  if(e.kind==='enter')return `<div class="kbig">${splitText(r)}</div><div class="kformula">${vals}<br>P = K(${r.a}, ${r.c})<br>Q = K(${r.b}, ${r.d})<br>R = K(${r.a+r.b}, ${r.c+r.d})</div>`;
+  if(e.kind==='P')return `<div class="kformula">${vals}<br><b>P = ${fmt(r.P)}</b><br>Q = ? &nbsp; R = ? &nbsp; S = ?</div>`;
+  if(e.kind==='Q')return `<div class="kformula">${vals}<br>P = ${fmt(r.P)} &nbsp; <b>Q = ${fmt(r.Q)}</b><br>R = ? &nbsp; S = ?</div>`;
+  if(e.kind==='R')return `<div class="kformula">P = ${fmt(r.P)} &nbsp; Q = ${fmt(r.Q)} &nbsp; <b>R = ${fmt(r.R)}</b><br>S = ${fmt(r.R)} − ${fmt(r.P)} − ${fmt(r.Q)} = <b>${fmt(r.S)}</b></div>`;
+  return `<div class="kformula">M = P×10<sup>2k</sup> + S×10<sup>k</sup> + Q<br>= ${fmt(r.P)}×10<sup>${2*r.k}</sup> + ${fmt(r.S)}×10<sup>${r.k}</sup> + ${fmt(r.Q)}<br>= <b>${fmt(r.M)}</b></div>`;
+}
+function renderK(){
+  const e=kEvents[ki],r=kNodes[e.id],stage=kStage(e.kind),labels=['1 ผ่า / กรณีฐาน','2 หา P','3 หา Q','4 หา R และ S','5 ประกอบ M'];
+  $('kSteps').innerHTML=labels.map((x,i)=>`<div class="kstep ${i===stage?'on':i<stage?'done':''}">${x}</div>`).join('');
+  const copy=eventCopy(e,r);$('kMsg').innerHTML=`<div class="kbig">${copy.title}</div><p>${copy.why}</p><p class="hint">การเรียก: ${r.label} · ระดับ ${r.dep}</p>`;$('kCalc').innerHTML=calcCopy(e,r);
+  const maxD=Math.max(...kNodes.map(n=>n.dep));let tree='';
+  for(let d=0;d<=maxD;d++){const ns=kNodes.filter(n=>n.dep===d&&n.enterAt<=ki);if(!ns.length)continue;tree+=`<div class="klevel">${ns.map(n=>{const done=n.doneAt<=ki,active=n.id===r.id;return `<div class="knode seen ${done?'done':''} ${active?'active':''}"><b>${n.label}: K(${n.x},${n.y})</b><small>${done?'คืน '+fmt(n.M):active?'กำลังทำ':'รอผล'}</small></div>`}).join('')}</div>`}$('kTree').innerHTML=tree;
+  let h='<tr><th>การเรียก</th><th>n, m → k</th><th>a, b | c, d</th><th>P, Q, R</th><th>S = R − P − Q</th><th>M</th></tr>';
+  kNodes.filter(n=>n.enterAt<=ki).forEach(n=>{const done=n.doneAt<=ki,nm=`<span class="mono">${'&nbsp;'.repeat(n.dep*4)}${n.label}: K(${n.x}, ${n.y})</span>`;
+    if(n.base){h+=`<tr class="${n.id===r.id?'now':''}"><td>${nm}</td><td>${n.n}, ${n.m}</td><td colspan="3">กรณีฐาน → ${n.x} × ${n.y}</td><td><b>${fmt(n.M)}</b></td></tr>`;return}
+    h+=`<tr class="${n.id===r.id?'now':''}"><td>${nm}</td><td>${n.n}, ${n.m} → k=${n.k}</td><td>${n.a}, ${n.b} | ${n.c}, ${n.d}</td>${done?`<td>${fmt(n.P)}, ${fmt(n.Q)}, ${fmt(n.R)}</td><td>${fmt(n.S)}</td><td><b>${fmt(n.M)}</b></td>`:'<td colspan="3" class="hint">กำลังคำนวณ…</td>'}</tr>`});$('ktable').innerHTML=h;
+  const root=kNodes[0],done=ki===kEvents.length-1;$('ksum').innerHTML=done?`${root.x} × ${root.y} = <b>${fmt(root.M)}</b> <span class="ok">✔ ตรงกับคูณธรรมดา</span> · จำสูตร M = P×10<sup>2k</sup> + S×10<sup>k</sup> + Q`:`ขั้นที่ ${ki+1} จาก ${kEvents.length} · ผลสุดท้ายจะปรากฏเมื่อค่าจากลูกไหลกลับถึงราก`;
+  $('kPrev').disabled=ki<=0;$('kNext').disabled=done;if(done)stopK();
+}
+function nextK(){if(ki<kEvents.length-1){ki++;renderK()}}
 document.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const [x,y]=b.dataset.k.split(',');$('kx').value=x;$('ky').value=y;runK()});
-$('kGo').onclick=runK;$('kNext').onclick=()=>{if(ki<kRows.length){ki++;renderK()}};$('kPrev').onclick=()=>{if(ki>1){ki--;renderK()}};$('kAll').onclick=()=>{ki=kRows.length;renderK()};runK();
+$('kGo').onclick=runK;$('kNext').onclick=()=>{stopK();nextK()};$('kPrev').onclick=()=>{stopK();if(ki>0){ki--;renderK()}};$('kAll').onclick=()=>{stopK();ki=kEvents.length-1;renderK()};
+$('kPlay').onclick=()=>{if(kTimer){stopK();return}if(ki===kEvents.length-1)ki=0;$('kPlay').textContent='หยุด';kTimer=setInterval(nextK,Math.max(200,2000-Number($('kSpeed').value)))};runK();
 
 /* ---------- PART 4 ---------- */
 function tstr(ops,sp){const s=ops/sp;if(s<1e-3)return'< 1 มิลลิวินาที';if(s<1)return(s*1000).toFixed(1)+' มิลลิวินาที';if(s<120)return s.toFixed(2)+' วินาที';if(s<7200)return(s/60).toFixed(1)+' นาที';if(s<172800)return(s/3600).toFixed(1)+' ชั่วโมง';return(s/86400).toFixed(1)+' วัน'}

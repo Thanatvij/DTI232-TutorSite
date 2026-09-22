@@ -3,392 +3,51 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>DTI232 ติวสอบกลางภาค</title>
+<title>ห้องติวสอบ · เลือกวิชา</title>
+<link rel="stylesheet" href="shared/style.css">
 <style>
-@font-face{font-family:Plex;src:url(fonts/ibm-plex-sans-thai-thai-400-normal.woff2);font-weight:400;unicode-range:U+0E00-0E7F}
-@font-face{font-family:Plex;src:url(fonts/ibm-plex-sans-thai-thai-600-normal.woff2);font-weight:600;unicode-range:U+0E00-0E7F}
-@font-face{font-family:Plex;src:url(fonts/ibm-plex-sans-thai-thai-700-normal.woff2);font-weight:700;unicode-range:U+0E00-0E7F}
-@font-face{font-family:Plex;src:url(fonts/ibm-plex-sans-thai-latin-400-normal.woff2);font-weight:400}
-@font-face{font-family:Plex;src:url(fonts/ibm-plex-sans-thai-latin-600-normal.woff2);font-weight:600}
-@font-face{font-family:Plex;src:url(fonts/ibm-plex-sans-thai-latin-700-normal.woff2);font-weight:700}
-@font-face{font-family:PlexMono;src:url(fonts/ibm-plex-mono-latin-400-normal.woff2);font-weight:400}
-@font-face{font-family:PlexMono;src:url(fonts/ibm-plex-mono-latin-600-normal.woff2);font-weight:600}
-:root{
-  --paper:#FFFFFF;--grid:#E8EFF8;--ink:#1B2A4A;--graphite:#5A6270;--line:#C9D3E0;--soft:#F3F7FC;
-  --undiscovered:#C7CDD6;--discovered:#FFD84D;--explored:#34A56F;--focus:#2F6FEB;--warn:#C2410C;
-  --sans:Plex,"Noto Sans Thai","Sukhumvit Set",Tahoma,sans-serif;--mono:PlexMono,ui-monospace,Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme:dark){:root{
-  --paper:#0F1726;--grid:#17223A;--ink:#E4EAF5;--graphite:#9AA6B8;--line:#2C3A55;--soft:#16213A;
-  --undiscovered:#4A5568;--discovered:#E5B800;--explored:#2F9A66;--focus:#6FA0FF;--warn:#FB923C;}}
-*,*::before,*::after{box-sizing:border-box}
-body{margin:0;font-family:var(--sans);color:var(--ink);font-size:16px;line-height:1.6;background-color:var(--paper);
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
-.top{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1.5px solid var(--line)}
-.top .in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.top h1{font-size:1.05rem;margin:0 12px 0 0;white-space:nowrap}
-.top button{font:inherit;font-size:.92rem;font-weight:600;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:5px 12px;border-radius:999px;cursor:pointer}
-.top button[aria-selected=true]{background:var(--ink);color:var(--paper)}
-main{max-width:1200px;margin:0 auto;padding:18px 16px 60px}
-.panel{display:none}.panel.on{display:block}
-h2{font-size:1.45rem;margin:4px 0 6px}
-h3{font-size:1.08rem;margin:0 0 8px}
-.lead{color:var(--graphite);max-width:75ch;margin:0 0 14px}
-.sheet{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:14px;margin-bottom:16px}
-.bench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px}
-@media (max-width:880px){.bench{grid-template-columns:1fr}}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
-.btn{font:inherit;font-size:.93rem;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:5px 12px;border-radius:8px;cursor:pointer}
-.btn.main{background:var(--ink);color:var(--paper)}.btn:disabled{opacity:.4;cursor:default}
-button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-select,input[type=text],input[type=number]{font:inherit;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:5px 8px}
-input.mono,input[type=number]{font-family:var(--mono)}
-.hint{color:var(--graphite);font-size:.9rem;margin:6px 0 0}
-.scroll{overflow-x:auto}
-table{border-collapse:collapse;font-size:.92rem}
-.t{width:100%}.t th,.t td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
-.t th{background:var(--soft);font-weight:600}
-.t tr.now td{background:color-mix(in srgb,var(--discovered) 24%,transparent)}
-.mx td,.mx th{width:34px;height:34px;text-align:center;border:1px solid var(--line);font-family:var(--mono)}
-.mx th{color:var(--graphite);font-weight:400}
-.mx td button{width:100%;height:100%;border:0;background:transparent;color:var(--ink);font:inherit;cursor:pointer}
-.mx td.one button{font-weight:600}.mx td.diag{background:var(--soft)}
-.mx tr.scan td{background:color-mix(in srgb,var(--discovered) 30%,transparent)}
-.mx td.hit{background:var(--discovered)!important;color:#1B2A4A}
-.mono{font-family:var(--mono)}
-pre.code{font-family:var(--mono);font-size:.84rem;background:var(--soft);border-radius:8px;padding:10px;margin:8px 0 0;overflow-x:auto;line-height:1.5}
-pre.code .hl{background:var(--discovered);color:#1B2A4A;border-radius:3px}
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.88rem;color:var(--graphite)}
-.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1.5px solid var(--ink)}
-.queue{display:flex;gap:4px;flex-wrap:wrap;min-height:32px;align-items:center;font-family:var(--mono)}
-.queue span{border:1.5px solid var(--ink);padding:1px 10px;border-radius:6px;background:var(--discovered);color:#1B2A4A}
-.queue em{color:var(--graphite);font-style:normal}
-svg text{font-family:var(--mono)}
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:10px}
-.fact{border:1px dashed var(--line);border-radius:8px;padding:7px}.fact b{display:block;font-size:1.1rem}.fact small{color:var(--graphite)}
-.alist{font-family:var(--mono);font-size:.92rem;line-height:1.7}
-.lvl{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}.lvlname{font-size:.85rem;color:var(--graphite);width:100%}
-.chunk{display:flex;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;font-family:var(--mono)}
-.chunk span{padding:2px 8px;border-right:1px solid var(--line)}.chunk span:last-child{border-right:0}
-.chunk.new{background:color-mix(in srgb,var(--explored) 22%,transparent)}
-.log{font-size:.92rem;margin:6px 0 0;padding-left:18px}
-.ok{color:var(--explored);font-weight:600}.bad{color:var(--warn);font-weight:600}
-.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
-.part{border:1.5px solid var(--ink);border-radius:10px;padding:12px;background:var(--paper);cursor:pointer;text-align:left;font:inherit;color:inherit}
-.part b.pts{font-size:2rem;line-height:1;display:block}
-.rule{border-left:0;background:var(--soft);border-radius:10px;padding:12px 14px;margin:14px 0}
-details{border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--paper)}
-details summary{cursor:pointer;font-weight:600}
-details[open] summary{margin-bottom:6px}
-.frame{width:100%;height:640px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
-.bars{display:grid;gap:6px;margin-top:8px}
-.bar{display:grid;grid-template-columns:210px 1fr 150px;gap:8px;align-items:center;font-size:.9rem}
-.bar i{display:block;height:16px;background:var(--ink);border-radius:3px}
-.bar.best i{background:var(--explored)}
-@media (max-width:640px){.bar{grid-template-columns:1fr}.frame{height:520px}}
-footer{max-width:1200px;margin:0 auto;padding:0 16px 30px;color:var(--graphite);font-size:.85rem}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
-<style>
-.alv{display:flex;flex-direction:column;gap:6px;font-family:var(--mono)}
-.alrow{display:flex;align-items:center;gap:0;flex-wrap:wrap;opacity:.25}
-.alrow.on{opacity:1}.alrow.cur{background:color-mix(in srgb,var(--discovered) 25%,transparent);border-radius:6px}
-.alhead{width:34px;height:30px;border:1.8px solid var(--ink);display:grid;place-items:center;font-weight:600;background:var(--soft)}
-.alarrow{width:22px;height:2px;background:var(--ink);position:relative;margin:0 2px}
-.alarrow::after{content:"";position:absolute;right:-1px;top:-4px;border-left:7px solid var(--ink);border-top:5px solid transparent;border-bottom:5px solid transparent}
-.alnode{width:30px;height:30px;border:1.8px solid var(--warn);border-radius:50%;display:grid;place-items:center;color:var(--warn);font-weight:600}
-.alnull{color:var(--warn);font-weight:600;margin-left:2px}
-.kind{display:inline-block;border:1.5px solid var(--ink);border-radius:999px;padding:1px 10px;font-weight:600;font-size:.9rem}
-.anim{position:relative;height:330px;margin-top:10px;border-bottom:1.5px solid var(--line)}
-.anim .lab{position:absolute;left:0;font-size:.8rem;color:var(--graphite)}
-.bar2{position:absolute;bottom:0;display:flex;align-items:flex-end;justify-content:center;transition:transform .35s ease,height .35s ease,background-color .2s;border-radius:4px 4px 0 0;background:var(--undiscovered);color:#1B2A4A;font-family:var(--mono);font-size:.8rem;font-weight:600}
-.bar2 span{transform:translateY(-100%);position:absolute;top:0;color:var(--ink)}
-.bar2.left{background:#8FB8F0}.bar2.right{background:#F2B880}.bar2.cmp{background:var(--discovered);outline:2.5px solid var(--ink)}
-.bar2.placed{background:var(--explored)}.bar2.sorted{background:var(--explored)}.bar2.dim{opacity:.35}
-.msg{font-size:1rem;min-height:1.6em;margin:8px 0}
-.kcoach{display:grid;grid-template-columns:minmax(250px,.8fr) minmax(0,1.4fr);gap:12px;margin-top:10px}
-.kcard{border:1.5px solid var(--line);border-radius:10px;padding:12px;background:var(--soft);min-height:150px}
-.kcard h4{margin:0 0 8px;font-size:.95rem;color:var(--graphite)}
-.kbig{font-family:var(--mono);font-size:1.15rem;font-weight:600;overflow-wrap:anywhere}
-.kformula{font-family:var(--mono);font-size:.95rem;line-height:1.8;margin-top:8px}
-.kformula b{background:var(--discovered);color:#1B2A4A;padding:1px 5px;border-radius:4px}
-.ksteps{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:10px 0}
-.kstep{border:1.5px solid var(--line);border-radius:8px;padding:6px;text-align:center;font-size:.82rem;color:var(--graphite);background:var(--paper)}
-.kstep.on{border-color:var(--ink);background:var(--discovered);color:#1B2A4A;font-weight:600}
-.kstep.done{background:color-mix(in srgb,var(--explored) 23%,var(--paper));color:var(--ink)}
-.ktree{border:1.5px solid var(--line);border-radius:10px;padding:10px;overflow-x:auto;min-height:126px;background:var(--paper)}
-.klevel{display:flex;justify-content:center;gap:8px;min-width:max-content;margin:7px 0}
-.knode{border:1.5px solid var(--line);border-radius:8px;padding:5px 9px;min-width:108px;text-align:center;font-family:var(--mono);font-size:.78rem;background:var(--paper);opacity:.55;transition:.2s}
-.knode.seen{opacity:1}.knode.active{background:var(--discovered);color:#1B2A4A;border-color:var(--ink);transform:translateY(-2px)}
-.knode.done{background:color-mix(in srgb,var(--explored) 28%,var(--paper));opacity:1}.knode small{display:block;font-family:var(--sans);color:var(--graphite)}
-@media (max-width:760px){.kcoach{grid-template-columns:1fr}.ksteps{grid-template-columns:repeat(2,1fr)}.kbig{font-size:1rem}}
-.slides{counter-reset:s}
-.sl{display:grid;grid-template-columns:44px 1fr auto;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);align-items:start}
-.sl .n{font-family:var(--mono);color:var(--graphite)}
-.tag{font-size:.8rem;border-radius:999px;padding:1px 8px;border:1px solid var(--line);white-space:nowrap}
-.tag.in{background:color-mix(in srgb,var(--explored) 20%,transparent)}.tag.out{color:var(--graphite)}
-@media (prefers-reduced-motion:reduce){.bar2{transition:none}}
+.hero{margin:10px 0 22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.card.empty{border-style:dashed;border-color:var(--line)}
+.code{font-family:var(--mono);font-weight:600;font-size:1.35rem;letter-spacing:.02em}
+.name{min-height:2.6em}
+.name.missing{color:var(--graphite);font-style:italic}
+.meta{font-size:.9rem;color:var(--graphite)}
+.feat{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:auto}
+.feat a{font:inherit;font-size:.9rem;font-weight:600;text-align:center;border:1.5px solid var(--ink);border-radius:8px;padding:7px 4px;text-decoration:none;background:var(--paper)}
+.feat a:hover{background:var(--soft)}
+.card.empty .feat a{border-color:var(--line);color:var(--graphite)}
+.open{align-self:flex-start}
 </style>
 </head>
 <body>
-<div class="top"><div class="in" role="tablist">
-  <h1>DTI232 ติวกลางภาค</h1>
-  <button role="tab" aria-selected="true" data-tab="home">ภาพรวมข้อสอบ</button>
-  <button role="tab" aria-selected="false" data-tab="slides">สรุปสไลด์อาจารย์</button>
-  <button role="tab" aria-selected="false" data-tab="p1">ส่วน 1 Input/Output</button>
-  <button role="tab" aria-selected="false" data-tab="p2">ส่วน 2 แบ่งแยกและเอาชนะ</button>
-  <button role="tab" aria-selected="false" data-tab="p3">ส่วน 3 กราฟ + BFS</button>
-  <button role="tab" aria-selected="false" data-tab="p4">ส่วน 4 อัตราการเติบโต</button>
-  <button role="tab" aria-selected="false" data-tab="va">VisuAlgo</button>
-  <button role="tab" aria-selected="false" data-tab="px">ฝึกชุด C</button>
-</div></div>
-
-<main>
-<!-- ============ HOME ============ -->
-<section class="panel on" id="home">
-  <h2>สอบอังคาร 22 ก.ย. 2569 · 13.00–15.00</h2>
-  <p class="lead">ข้อเขียน 4 ส่วน 100 คะแนน เนื้อหาสัปดาห์ 1–4 จบที่ BFS กดการ์ดเพื่อไปยังเครื่องมือของแต่ละส่วน</p>
-  <div class="parts">
-    <button class="part" data-go="p1"><b class="pts">22</b>ส่วน 1 จากงานจริงสู่ Input และ Output<br><small class="hint">ประมาณ 25 นาที · สัปดาห์ 1</small></button>
-    <button class="part" data-go="p2"><b class="pts">28</b>ส่วน 2 แบ่งแยกและเอาชนะ<br><small class="hint">ประมาณ 33 นาที · สัปดาห์ 3</small></button>
-    <button class="part" data-go="p3"><b class="pts">24</b>ส่วน 3 ปัญหาเส้นทางหนึ่งปัญหา สองโครงสร้างข้อมูล<br><small class="hint">ประมาณ 28 นาที · สัปดาห์ 4</small></button>
-    <button class="part" data-go="p4"><b class="pts">26</b>ส่วน 4 ใช้อัตราการเติบโตเลือกวิธีแก้ปัญหา<br><small class="hint">ประมาณ 30 นาที · สัปดาห์ 2</small></button>
+<div class="wrap">
+  <div class="hero">
+    <h1>TutorHub · สอบวันที่ 24 กันยายน</h1>
+    <p class="lead">เลือกวิชาที่จะติว แต่ละวิชามี 4 ส่วน: <b>ติวสอบ</b> · <b>ติวเนื้อหา</b> · <b>แบบฝึกหัด</b> · <b>เก็งข้อสอบ</b></p>
+    <div class="sheet"><b>ตารางวันสอบ</b><div class="row"><span class="chip ready">09.00–11.00 · DTI286</span><span class="hint">พัก 2 ชั่วโมง</span><span class="chip ready">13.00–16.00 · PB287</span></div></div>
   </div>
-  <div class="rule"><b>กติกาข้อ 5 บนปกข้อสอบ:</b> ทุกส่วนเริ่มจากสถานการณ์จริง ให้ตอบ<b>ความหมายของปัญหา</b>เป็นภาษาธรรมดาก่อน แล้วจึงใช้สัญลักษณ์หรือชื่ออัลกอริทึม<br>ประโยคเปิด: "ปัญหานี้คือการ ___ เพื่อให้ ___ โดยมีข้อจำกัดว่า ___" แล้วแยก สิ่งที่เห็น / กลไก / เป้าหมาย</div>
-  <div class="sheet">
-    <h3>เอาอะไรเข้าห้องได้</h3>
-    <p>หนังสือประจำวิชา 1 เล่ม + กระดาษโน้ต A4 ไม่เกิน 2 หน้า (1 แผ่นหน้า-หลัง ติดหรือเย็บในหนังสือก่อนเข้าห้อง) + Post-it ไม่จำกัด (ติดในหนังสือ) · ห้ามสมุด กระดาษแยก หนังสืออื่น และอุปกรณ์อิเล็กทรอนิกส์</p>
-    <p><a class="btn main" href="a4.html" target="_blank" rel="noopener">เปิดกระดาษ A4 เข้าห้องสอบ (แก้ไขได้ + พิมพ์เป็น PDF)</a></p>
-    <h3 style="margin-top:12px">ลำดับการเขียนคำตอบทุกข้อ</h3>
-    <ol>
-      <li>อธิบายความหมายของปัญหาเป็นภาษาธรรมดา</li>
-      <li>ข้อมูลนำเข้า ผลลัพธ์ ข้อจำกัด กรณีขอบเขต พฤติกรรมที่คาดหวัง</li>
-      <li>วิธีแทนข้อมูลและโครงสร้างข้อมูล พร้อมเหตุผล</li>
-      <li>ขั้นตอนวิธี (ซูโดโค้ดมีเลขบรรทัด หรือข้อความทีละขั้น)</li>
-      <li>ไล่ตัวอย่างเล็กเป็นตาราง</li>
-      <li>บิกโอของเวลาและพื้นที่ บอกว่านับอะไรเป็น 1 หน่วย (แบบจำลองแรม)</li>
-      <li>ตรวจด้วย 3E และคำแนะนำแบบมีเงื่อนไข</li>
-    </ol>
-  </div>
-</section>
-
-<!-- ============ PROF SLIDES ============ -->
-<section class="panel" id="slides">
-  <h2>สรุปสไลด์อาจารย์ 2 ชุด และจะดูตัวอย่างได้ที่ไหน</h2>
-  <p class="lead">ใช้คู่กับสไลด์ติวที่ทำไว้ แถบสีเขียว = ออกสอบ · สีเทา = สัปดาห์หลังกลางภาค ไม่ต้องอ่าน</p>
-  <div class="sheet"><h3>ชุดที่ 1 · อัลกอริทึมสำหรับกราฟ I (15 หน้า)</h3><div class="slides" id="sg"></div></div>
-  <div class="sheet"><h3>ชุดที่ 2 · The 1,000 Chicken Logistics Mission (13 หน้า)</h3><div class="slides" id="sc"></div></div>
-</section>
-
-<!-- ============ PART 1 ============ -->
-<section class="panel" id="p1">
-  <h2>ส่วน 1 · จากงานจริงสู่ Input และ Output</h2>
-  <p class="lead">อ่านสถานการณ์ ลองเขียนคำตอบบนกระดาษก่อน แล้วค่อยเปิดดูตัวอย่างคำตอบ</p>
-  <div class="sheet">
-    <h3>แม่แบบ (แบบหนังสือหน้า 15)</h3>
-    <pre class="code">Input : กำหนดให้ C เป็นเซตของ ___ โดยที่ C = {c1, c2, …, cN} และ ci = (รหัส, ___, ___)
-Output: ___ โดยที่ ___          เช่น C' = {c'1 ≤ c'2 ≤ … ≤ c'N}  หรือ  "ตำแหน่ง / null"
-Constraints: ขนาดสูงสุด · ความจุ · ทรัพยากรที่ใช้พร้อมกันได้
-Edge cases : ไม่มีข้อมูล · มี 1 ตัว · ซ้ำหมด · ติดลบหมด · ไม่พบ · เกินความจุ
-Expected   : ต้องจบการทำงาน · ไม่มีข้อมูลหาย/ซ้ำ</pre>
-  </div>
-  <div id="scen"></div>
-</section>
-
-<!-- ============ PART 2 ============ -->
-<section class="panel" id="p2">
-  <h2>ส่วน 2 · แบ่งแยกและเอาชนะ</h2>
-  <p class="lead">แบ่ง → แก้ย่อยจนถึงกรณีฐาน → รวม · ใส่ข้อมูลเองได้ทุกเครื่องมือ</p>
-
-  <div class="sheet">
-    <h3>Merge Sort แบบแอนิเมชัน</h3>
-    <label for="msin">ข้อมูล (คั่นด้วยจุลภาค 2–16 ตัว)</label>
-    <input type="text" class="mono" id="msin" style="width:100%" value="180, 95, 240, 60, 130, 75, 150, 70">
-    <div class="row">
-      <button class="btn" data-ms="180, 95, 240, 60, 130, 75, 150, 70">การบ้าน 8 โซน</button>
-      <button class="btn" data-ms="52, 38, 71, 45, 60, 33, 49, 58">ชุด C รถ 8 คัน</button>
-      <button class="btn" data-ms="45, 12, 88, 30, 67, 5, 23, 50">ชุด A</button>
-      <button class="btn" data-ms="38, 27, 43, 3, 9, 82, 10">7 ตัว (จำนวนคี่)</button>
-      <button class="btn main" id="msGo">ใช้ข้อมูลนี้</button>
-    </div>
-    <div class="row">
-      <button class="btn" id="aPrev">ย้อน</button>
-      <button class="btn main" id="aPlay">เล่น</button>
-      <button class="btn" id="aNext">ขั้นถัดไป</button>
-      <button class="btn" id="aEnd">ข้ามไปจบ</button>
-      <label>ความเร็ว <input type="range" id="aSpeed" min="150" max="1600" value="700" style="vertical-align:middle"></label>
-    </div>
-    <div class="legend"><span><i class="dot" style="background:#8FB8F0"></i>ส่วนซ้าย</span><span><i class="dot" style="background:#F2B880"></i>ส่วนขวา</span><span><i class="dot" style="background:var(--discovered)"></i>กำลังเทียบ</span><span><i class="dot" style="background:var(--explored)"></i>รวมเสร็จ/เรียงแล้ว</span></div>
-    <div class="msg" id="aMsg"></div>
-    <div class="anim" id="anim"></div>
-    <p class="hint" id="aStat"></p>
-    <details><summary>Merge Sort แบบเขียนเป็นข้อความ ห้ามวาดรูป (Task 2)</summary>
-<pre class="code">Input : C = c1, …, cN ที่ยังไม่เรียง       Output: C' โดยที่ c'1 ≤ c'2 ≤ … ≤ c'N
-ขั้นที่ 1 แบ่ง C เป็น C_left = c1…c⌊N/2⌋ และ C_right = c⌊N/2⌋+1…cN
-ขั้นที่ 2 ทำขั้นที่ 1 ซ้ำกับแต่ละส่วนจนเหลือข้อมูล 1 ตัว (1 ตัวถือว่าเรียงแล้ว = กรณีฐาน)
-ขั้นที่ 3 รวมสองส่วนที่เรียงแล้ว: ตั้ง i = 1, j = 1
-          ถ้า C_left[i] ≤ C_right[j] ต่อ C_left[i] ท้ายผลลัพธ์ แล้ว i = i + 1
-          มิฉะนั้น ต่อ C_right[j] ท้ายผลลัพธ์ แล้ว j = j + 1
-          เมื่อส่วนใดหมด ต่อข้อมูลที่เหลือของอีกส่วนทั้งหมดท้ายผลลัพธ์
-ขั้นที่ 4 ทำขั้นที่ 3 กับคู่ที่แบ่งมาจากส่วนเดียวกัน จากเล็กไปใหญ่ จนเหลือลำดับเดียว</pre></details>
-  </div>
-
-  <div class="sheet">
-    <h3>Merge Sort แบบต้นไม้ (เหมือนเขียนในกระดาษ)</h3>
-    <div id="msDivide"></div>
-    <div class="row"><button class="btn" id="msPrev">ย้อน</button><button class="btn main" id="msNext">รวมคู่ถัดไป</button><button class="btn" id="msAll">แสดงทั้งหมด</button></div>
-    <div id="msMerge"></div><ol class="log" id="msLog"></ol><p class="hint" id="msSum"></p>
-  </div>
-
-  <div class="sheet">
-    <h3>Binary Search บนผลลัพธ์ที่เรียงแล้ว</h3>
-    <div class="row"><label for="bsT">ค้นหา</label><input type="text" class="mono" id="bsT" value="130" style="width:110px"><button class="btn main" id="bsGo">ค้น</button></div>
-    <div class="scroll"><table class="t" id="bsTable"></table></div><p class="hint" id="bsSum"></p>
-  </div>
-
-  <div class="sheet">
-    <h3>Karatsuba แบบแอนิเมชัน</h3>
-    <p class="lead">มองทีละงาน: ผ่าเลข → หา P → หา Q → หา R และ S → ประกอบ M · กล่องสีเหลืองคือการเรียกที่กำลังทำงาน สีเขียวคือคำนวณเสร็จแล้ว</p>
-    <div class="row"><label for="kx">X</label><input type="text" class="mono" id="kx" value="12" style="width:130px"><label for="ky">Y</label><input type="text" class="mono" id="ky" value="56" style="width:130px"></div>
-    <div class="row">
-      <button class="btn" data-k="12,56">12 × 56</button><button class="btn" data-k="1234,5678">1234 × 5678</button>
-      <button class="btn" data-k="123,45">123 × 45 หลักคี่</button><button class="btn" data-k="38,47">38 × 47</button>
-      <button class="btn" data-k="1356,2461">1356 × 2461</button><button class="btn main" id="kGo">คำนวณ</button>
-    </div>
-    <div class="row">
-      <button class="btn" id="kPrev">ย้อน</button><button class="btn main" id="kPlay">เล่น</button>
-      <button class="btn" id="kNext">ขั้นถัดไป</button><button class="btn" id="kAll">ข้ามไปจบ</button>
-      <label>ความเร็ว <input type="range" id="kSpeed" min="250" max="1800" value="900" style="vertical-align:middle"></label>
-    </div>
-    <div class="ksteps" id="kSteps"></div>
-    <div class="kcoach">
-      <div class="kcard"><h4>ตอนนี้กำลังทำอะไร</h4><div id="kMsg"></div></div>
-      <div class="kcard"><h4>สมุดคำนวณของการเรียกนี้</h4><div id="kCalc"></div></div>
-    </div>
-    <h4 style="margin:14px 0 6px">ต้นไม้การเรียกซ้ำ</h4>
-    <div class="ktree" id="kTree"></div>
-    <p class="hint" id="ksum"></p>
-    <details><summary>ตารางทุกการเรียก (ใช้ลอกแบบลงกระดาษ)</summary><div class="scroll"><table class="t" id="ktable"></table></div></details>
-    <details><summary>ความหมาย + ซูโดโค้ด</summary>
-<pre class="code">ผ่าเลข X = a·10^k + b , Y = c·10^k + d
-XY = ac·10^2k + (ad+bc)·10^k + bd       ← ต้องคูณ 4 ครั้ง
-แต่ ad+bc = (a+b)(c+d) − ac − bd        ← เหลือ 3 ครั้ง: P=ac  Q=bd  R=(a+b)(c+d)
-
-KARATSUBA(X, Y)
- 1. n ← จำนวนหลักของ X          2. m ← จำนวนหลักของ Y
-    ถ้า n = 1 หรือ m = 1 ให้ return X × Y        ← กรณีฐาน
- 3. k ← ceil(max(n, m) / 2)
- 4. a ← floor(X / 10^k)          5. b ← X mod 10^k
- 6. c ← floor(Y / 10^k)          7. d ← Y mod 10^k
- 8. P ← KARATSUBA(a, c)          9. Q ← KARATSUBA(b, d)
-10. R ← KARATSUBA(a+b, c+d)     11. S ← R − P − Q
-12. M ← P × 10^(2k) + S × 10^k + Q            13. return M
-T(n) = 3T(n/2) + Θ(n) = Θ(n^1.585)   (คูณแบบตั้งหลัก Θ(n²))</pre></details>
-  </div>
-</section>
-
-<!-- ============ PART 3 ============ -->
-<section class="panel" id="p3">
-  <h2>ส่วน 3 · ปัญหาเส้นทางหนึ่งปัญหา สองโครงสร้างข้อมูล</h2>
-  <p class="lead">เลือกกราฟตัวอย่าง (วางตำแหน่งจุดตามรูปในหนังสือและสไลด์) · แปลงเมทริกซ์เป็นรายการประชิดทีละแถว · ไล่ BFS ทีละขั้น · กดช่องเมทริกซ์เพื่อแก้กราฟ</p>
-  <div class="sheet">
-    <div class="row">
-      <label for="preset">กราฟ</label>
-      <select id="preset"></select>
-      <label for="start">เริ่ม BFS ที่</label><select id="start"></select>
-      <span class="kind" id="kind"></span>
-    </div>
-    <p class="hint" id="pdesc"></p>
-  </div>
-  <div class="bench">
-    <div class="sheet">
-      <h3>1. เมทริกซ์ประชิด</h3>
-      <div class="scroll"><table class="mx" id="mx"></table></div>
-      <p class="hint" id="mxhint"></p>
-      <div class="facts" id="facts"></div>
-    </div>
-    <div class="sheet">
-      <h3>2. กราฟ</h3>
-      <div class="legend"><span><i class="dot" style="background:var(--undiscovered)"></i>ยังไม่พบ</span><span><i class="dot" style="background:var(--discovered)"></i>พบแล้ว (อยู่ในคิว)</span><span><i class="dot" style="background:var(--explored)"></i>สำรวจแล้ว</span></div>
-      <svg id="graph" viewBox="0 0 440 330" width="100%" role="img" aria-label="กราฟ"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs><g id="gg"></g></svg>
-    </div>
-  </div>
-  <div class="sheet">
-    <h3>3. แปลงเมทริกซ์เป็นรายการประชิด (Adjacency List)</h3>
-    <p class="hint" id="alhow"></p>
-    <div class="row"><button class="btn" id="lPrev">ย้อน</button><button class="btn main" id="lNext">แปลงแถวถัดไป</button><button class="btn" id="lAll">แสดงทั้งหมด</button></div>
-    <p class="msg" id="lMsg"></p>
-    <div class="alv" id="alv"></div>
-  </div>
-  <div class="sheet">
-    <h3>4. ไล่ BFS</h3>
-    <div><b>คิว</b> <span class="hint">(หัวคิวซ้าย)</span></div><div class="queue" id="queue"></div>
-    <div class="row"><button class="btn" id="bPrev">ย้อน</button><button class="btn main" id="bNext">ขั้นถัดไป</button><button class="btn" id="bAll">แสดงทั้งหมด</button><button class="btn" id="bReset">เริ่มใหม่</button></div>
-    <div class="facts" id="cost"></div>
-    <div class="scroll" style="margin-top:10px"><table class="t" id="btrace"></table></div>
-    <p class="hint" id="bsum"></p><pre class="code" id="bcode"></pre>
-  </div>
-  <div class="sheet">
-    <h3>5. เทียบสองโครงสร้างด้วยตัวเลขจริง</h3>
-    <div class="row"><label>จำนวนจุด V <input type="number" id="gV" value="10000" min="1" style="width:120px"></label><label>เส้นต่อจุดเฉลี่ย <input type="number" id="gD" value="3" min="0" style="width:90px"></label></div>
-    <div id="gOut"></div>
-  </div>
-</section>
-
-<!-- ============ PART 4 ============ -->
-<section class="panel" id="p4">
-  <h2>ส่วน 4 · ใช้อัตราการเติบโตเลือกวิธีแก้ปัญหา</h2>
-  <p class="lead">ไม่มีวิธีที่ดีที่สุดเสมอ ต้องแทนตัวเลขของสถานการณ์จริง เปลี่ยน n และ k แล้วดูว่าคำตอบเปลี่ยนเมื่อไร</p>
-  <div class="sheet">
-    <div class="row">
-      <label>n (จำนวนข้อมูล) <input type="number" id="n4" value="1000000" min="1" style="width:140px"></label>
-      <label>k (จำนวนครั้งที่ค้น) <input type="number" id="k4" value="1000" min="1" style="width:110px"></label>
-      <label>ความเร็วเครื่อง (ครั้ง/วินาที) <input type="number" id="s4" value="100000000" min="1" style="width:150px"></label>
-    </div>
-    <p class="hint">ตัวเลขเป็นการประมาณภายใต้แบบจำลองแรม (1 คำสั่ง = 1 หน่วย) ละแคช หน่วยความจำ และค่าคงที่ ในข้อสอบให้เขียนข้อสมมตินี้ด้วย</p>
-  </div>
-  <div class="sheet"><h3>งาน A: ตรวจว่ามีรหัสซ้ำหรือไม่</h3><div id="outA"></div></div>
-  <div class="sheet"><h3>งาน B: ค้นรหัส k ครั้ง</h3><div id="outB"></div></div>
-  <div class="sheet"><h3>เมื่อข้อมูลเพิ่มขึ้น งานของแต่ละแบบเพิ่มขึ้นเท่าไร</h3><div class="scroll"><table class="t" id="growth"></table></div></div>
-  <div class="sheet">
-    <h3>หาบิกโอจากซูโดโค้ด</h3>
-    <div class="scroll"><table class="t">
-      <tr><th>รูปแบบ</th><th>จำนวนรอบ</th><th>บิกโอ</th></tr>
-      <tr><td>คำสั่งเดี่ยว (บวก ลบ คูณ หาร mod เปรียบเทียบ if อ่าน/เขียน)</td><td>1</td><td>O(1)</td></tr>
-      <tr><td>วนตั้งแต่ 1 ถึง n</td><td>n</td><td>O(n)</td></tr>
-      <tr><td>ลูปซ้อน n × n ให้คูณ</td><td>n²</td><td>O(n²)</td></tr>
-      <tr><td>ลูปเขียนต่อกัน n แล้ว n ให้บวก</td><td>2n</td><td>O(n)</td></tr>
-      <tr><td>หารครึ่งหรือคูณสองทุกรอบ</td><td>log₂n</td><td>O(log n)</td></tr>
-      <tr><td>เทียบทุกคู่ i &lt; j</td><td>n(n−1)/2</td><td>O(n²)</td></tr>
-    </table></div>
-    <p class="hint">ลดรูปโดยตัดตัวคูณและพจน์ที่โตช้ากว่า เช่น 3n² + 100n + 6 = O(n²) · ตามที่อาจารย์สอน O = worst, Θ = average, Ω = best และ c คือจุดบนแกน n ที่ตั้งแต่ c เป็นต้นไปเงื่อนไขเป็นจริง</p>
-  </div>
-</section>
-
-<!-- ============ VISUALGO ============ -->
-<section class="panel" id="va">
-  <h2>VisuAlgo เฉพาะส่วนที่ออกสอบ</h2>
-  <p class="lead">ต้องต่ออินเทอร์เน็ต ถ้ากรอบด้านล่างว่าง ให้กด "เปิดในแท็บใหม่"</p>
-  <div class="row">
-    <button class="btn main" data-va="0">Merge Sort</button>
-    <button class="btn" data-va="1">Adjacency Matrix / List</button>
-    <button class="btn" data-va="2">BFS</button>
-  </div>
-  <div class="sheet">
-    <p id="vaHow"></p>
-    <div class="row"><a class="btn" id="vaOpen" target="_blank" rel="noopener">เปิดในแท็บใหม่</a></div>
-    <iframe class="frame" id="vaFrame" title="VisuAlgo" loading="lazy" referrerpolicy="no-referrer"></iframe>
-  </div>
-</section>
-
-<!-- ============ PRACTICE ============ -->
-<section class="panel" id="px">
-  <h2>ฝึกชุด C — ตามรูปแบบข้อสอบจริง</h2>
-  <p class="lead">จับเวลา 2 ชั่วโมง ทำบนกระดาษ เริ่มทุกข้อด้วยความหมายของปัญหา แล้วค่อยเปิดเฉลย</p>
-  <div id="setc"></div>
-</section>
-</main>
-<footer>ทำเพื่อติวส่วนตัว DTI232 ภาค 1/2569 · ฟอนต์ IBM Plex (SIL Open Font License) · VisuAlgo เป็นของ visualgo.net ใช้ผ่านการฝังหน้าเว็บเท่านั้น</footer>
-<script src="app.js"></script>
+  <div class="grid" id="grid"></div>
+  <p class="hint" style="margin-top:22px">เนื้อหาในเว็บสรุปจากเอกสารของรายวิชาและแยกส่วน “เก็งข้อสอบ” ออกจากข้อมูลที่ยืนยันแล้วอย่างชัดเจน</p>
+</div>
+<script src="data/subjects.js"></script>
+<script>
+const g=document.getElementById('grid');
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+g.innerHTML=(window.SUBJECTS||[]).map(s=>{
+  const base=s.custom||`subject.html?s=${encodeURIComponent(s.id)}`;
+  const t=s.tabs||{overview:'#overview',study:'#study',practice:'#practice',predict:'#predict'};
+  const ready=s.status==='ready';
+  return `<article class="card ${ready?'':'empty'}">
+    <div class="row" style="margin:0;justify-content:space-between"><span class="code">${esc(s.code)}</span><span class="chip ${ready?'ready':'empty'}">${ready?'พร้อมติว':'รอเนื้อหา'}</span></div>
+    <div class="name ${s.name?'':'missing'}">${s.name?esc(s.name):'ยังไม่ได้ใส่ชื่อวิชา'}</div>
+    <div class="meta">สอบ: ${s.exam?esc(s.exam):'ยังไม่ระบุ'}</div>
+    <a class="btn main open" href="${base}${t.overview}">เปิดวิชานี้</a>
+    <nav class="feat" aria-label="ส่วนของ ${esc(s.code)}">
+      <a href="${base}${t.overview}">ติวสอบ</a><a href="${base}${t.study}">ติวเนื้อหา</a><a href="${base}${t.practice}">แบบฝึกหัด</a><a href="${base}${t.predict}">เก็งข้อสอบ</a>
+    </nav>
+  </article>`}).join('');
+</script>
 </body>
 </html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ห้องติวสอบ</title>
+<link rel="stylesheet" href="shared/style.css">
+<style>
+.panel{display:none}.panel.on{display:block}
+.study{display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:820px){.study{grid-template-columns:1fr}}
+.toc{position:sticky;top:64px;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:10px}
+.toc a{display:block;padding:4px 6px;border-radius:6px;text-decoration:none;font-size:.93rem}
+.toc a.done::before{content:"✔ ";color:var(--good)}
+.toc a:hover{background:var(--soft)}
+.bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin:6px 0 10px}.bar i{display:block;height:100%;background:var(--good);width:0}
+.sec h3{margin-top:0}
+.sec .topic{font-size:.82rem;color:var(--graphite)}
+.q{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:12px;background:var(--paper)}
+.q .qtext{font-weight:600;margin-bottom:8px}
+.choice{display:block;width:100%;text-align:left;font:inherit;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:7px 10px;margin:5px 0;cursor:pointer}
+.choice.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 16%,transparent)}
+.choice.wrong{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 14%,transparent)}
+.explain{margin-top:6px;font-size:.93rem}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{border:1px dashed var(--line);border-radius:8px;padding:6px 10px}.stat b{font-size:1.2rem}
+.count{font-family:var(--mono);font-size:1.4rem;font-weight:600}
+</style>
+</head>
+<body>
+<div class="top"><div class="in" role="tablist">
+  <a class="brand" href="index.html">← เลือกวิชา</a>
+  <b id="code" style="margin-right:8px"></b>
+  <button role="tab" data-tab="overview">ติวสอบ</button>
+  <button role="tab" data-tab="study">ติวเนื้อหา</button>
+  <button role="tab" data-tab="practice">แบบฝึกหัด</button>
+  <button role="tab" data-tab="predict">เก็งข้อสอบ</button>
+</div></div>
+
+<main class="wrap">
+  <section class="panel" id="overview"></section>
+  <section class="panel" id="study"></section>
+  <section class="panel" id="practice"></section>
+  <section class="panel" id="predict"></section>
+</main>
+
+<script src="shared/subject.js"></script>
+</body>
+</html>

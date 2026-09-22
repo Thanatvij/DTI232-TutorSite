@@ -42,13 +42,20 @@ function render(){
   if(!st.length)$('study').innerHTML=`<h2>ติวเนื้อหา</h2>${empty('เนื้อหาติว')}`;
   else{
     const read=new Set(store.get('read',[]));
-    $('study').innerHTML=`<h2>ติวเนื้อหา</h2><div class="study"><nav class="toc" aria-label="หัวข้อ"><div class="hint" id="prog"></div><div class="bar"><i id="pbar"></i></div>${st.map(s=>`<a href="#sec-${esc(s.id)}" data-id="${esc(s.id)}" class="${read.has(s.id)?'done':''}">${esc(s.title)}</a>`).join('')}</nav>
-      <div>${st.map(s=>`<article class="sheet sec" id="sec-${esc(s.id)}">${s.topic?`<div class="topic">${esc(s.topic)}</div>`:''}<h3>${esc(s.title)}</h3>${s.summary?`<p><b>${esc(s.summary)}</b></p>`:''}<div>${s.html||''}</div>
+    $('study').innerHTML=`<h2>ติวเนื้อหา</h2><p class="lead">เลือกอ่านสรุปก่อนสอบ หรือเปิดเนื้อหาเต็มของแต่ละบทเมื่ออยากเข้าใจรายละเอียดและตัวอย่าง</p><div class="sheet study-tools"><b>โหมดการอ่านทุกบท</b><div class="row"><button class="btn main" data-all-view="summary">สรุปทั้งหมด</button><button class="btn" data-all-view="full">เนื้อหาเต็มทั้งหมด</button></div></div><div class="study"><nav class="toc" aria-label="หัวข้อ"><div class="hint" id="prog"></div><div class="bar"><i id="pbar"></i></div>${st.map(s=>`<a href="#sec-${esc(s.id)}" data-id="${esc(s.id)}" class="${read.has(s.id)?'done':''}">${esc(s.title)}</a>`).join('')}</nav>
+      <div>${st.map(s=>`<article class="sheet sec" id="sec-${esc(s.id)}">${s.topic?`<div class="topic">${esc(s.topic)}</div>`:''}<h3>${esc(s.title)}</h3><div class="read-modes" role="group" aria-label="เลือกระดับเนื้อหา"><button class="btn main" data-view="summary" data-sec="${esc(s.id)}">สรุปก่อนสอบ</button><button class="btn" data-view="full" data-sec="${esc(s.id)}">เนื้อหาเต็ม</button></div><div class="reading-note" data-note="${esc(s.id)}">กำลังแสดงสรุปฉบับอ่านเร็ว</div><div data-study-body="${esc(s.id)}">${s.summaryHtml||`<div class="key"><b>สรุปบท:</b> ${esc(s.summary||s.title)}</div><p>กด <b>เนื้อหาเต็ม</b> เพื่ออ่านคำอธิบาย ตาราง และตัวอย่างของบทนี้</p>`}</div>
         <div class="row"><label><input type="checkbox" data-read="${esc(s.id)}" ${read.has(s.id)?'checked':''}> อ่านแล้ว</label></div></article>`).join('')}</div></div>`;
     const upd=()=>{const r=new Set(store.get('read',[]));const n=st.filter(s=>r.has(s.id)).length;$('prog').textContent=`อ่านแล้ว ${n}/${st.length}`;$('pbar').style.width=(n/st.length*100)+'%';
       document.querySelectorAll('.toc a').forEach(a=>a.classList.toggle('done',r.has(a.dataset.id)))};
     document.querySelectorAll('[data-read]').forEach(c=>c.onchange=()=>{const r=new Set(store.get('read',[]));c.checked?r.add(c.dataset.read):r.delete(c.dataset.read);store.set('read',[...r]);upd()});
     document.querySelectorAll('.toc a').forEach(a=>a.onclick=e=>{e.preventDefault();document.getElementById('sec-'+a.dataset.id)?.scrollIntoView({behavior:'smooth',block:'start'})});
+    const setView=(sid,mode)=>{const item=st.find(s=>s.id===sid),body=document.querySelector(`[data-study-body="${sid}"]`),note=document.querySelector(`[data-note="${sid}"]`);if(!item||!body)return;
+      body.innerHTML=mode==='full'?(item.html||''):(item.summaryHtml||`<div class="key"><b>สรุปบท:</b> ${esc(item.summary||item.title)}</div>`);
+      note.textContent=mode==='full'?'กำลังแสดงเนื้อหาเต็มจากเอกสารประกอบการสอน':'กำลังแสดงสรุปฉบับอ่านเร็ว';
+      document.querySelectorAll(`[data-sec="${sid}"]`).forEach(b=>b.classList.toggle('main',b.dataset.view===mode));
+    };
+    document.querySelectorAll('[data-view][data-sec]').forEach(b=>b.onclick=()=>setView(b.dataset.sec,b.dataset.view));
+    document.querySelectorAll('[data-all-view]').forEach(b=>b.onclick=()=>{st.forEach(s=>setView(s.id,b.dataset.allView));document.querySelectorAll('[data-all-view]').forEach(x=>x.classList.toggle('main',x===b))});
     upd();
   }
 
@@ -78,10 +85,13 @@ function render(){
 
   /* ---------- PREDICT ---------- */
   const pd=d.predict||[];
+  const guide=d.examGuide||[];
   const L={high:['high','โอกาสสูง'],mid:['mid','ปานกลาง'],low:['low','พอมี']};
-  $('predict').innerHTML=`<h2>เก็งข้อสอบ</h2><p class="lead">เป็นการเดาจากหลักฐาน ไม่ใช่ข้อสอบจริง ใช้จัดลำดับการอ่าน</p>`+(pd.length?
-    `<div class="scroll sheet"><table class="t"><tr><th>หัวข้อ</th><th>โอกาส</th><th>หลักฐาน</th></tr>${pd.map(p=>`<tr><td>${esc(p.topic)}</td><td><span class="chip ${(L[p.level]||L.low)[0]}">${(L[p.level]||L.low)[1]}</span></td><td>${esc(p.evidence)}</td></tr>`).join('')}</table></div>`+
-    pd.filter(p=>p.sample).map(p=>`<div class="q"><div class="hint">${esc(p.topic)}</div><div class="qtext">${esc(p.sample)}</div>${p.answer?`<details><summary>แนวคำตอบ</summary><div>${p.answer}</div></details>`:''}</div>`).join(''):empty('การเก็งข้อสอบ'));
+  const guideHtml=guide.length?`<section class="sheet"><div class="topic">หลักฐานตรงจากผู้สอน</div><h3>แนวทบทวนจากไฟล์อาจารย์</h3><p>เรียงตามตอนในเอกสารที่ได้รับ ใช้ตรวจว่าทำโจทย์รูปแบบที่อาจารย์เน้นได้หรือยัง ส่วนนี้แยกจากแบบฝึกหัดรายบทอย่างชัดเจน</p><div class="stats"><span class="stat"><b>${guide.length}</b> รายการ</span><span class="stat"><b>${new Set(guide.map(q=>q.topic)).size}</b> ตอน</span></div></section>`+
+    guide.map((q,i)=>`<div class="q teacher-guide"><div class="hint">${esc(q.topic||'แนวจากอาจารย์')}</div><div class="qtext">${i+1}. ${esc(q.q)}</div>${q.type==='mcq'?`<ol class="guide-choices" type="ก">${(q.choices||[]).map(c=>`<li>${esc(c)}</li>`).join('')}</ol>`:''}<details><summary>ดูคำตอบและเหตุผล</summary><div>${q.type==='mcq'?`<b>คำตอบ: ${'กขคงจฉ'[q.answer]||q.answer+1}. ${esc((q.choices||[])[q.answer]||'')}</b>${q.explain?`<p>${esc(q.explain)}</p>`:''}`:(q.answer||'')}</div></details></div>`).join(''):'';
+  const analysisHtml=pd.length?`<h3 class="analysis-title">วิเคราะห์หัวข้อที่ควรเน้นเพิ่ม</h3><p class="lead">ส่วนนี้เป็นการวิเคราะห์จากความถี่และรูปแบบในแนวอาจารย์ ใช้จัดลำดับการอ่าน ไม่ใช่ข้อสอบจริง</p><div class="scroll sheet"><table class="t"><tr><th>หัวข้อ</th><th>โอกาส</th><th>หลักฐาน</th></tr>${pd.map(p=>`<tr><td>${esc(p.topic)}</td><td><span class="chip ${(L[p.level]||L.low)[0]}">${(L[p.level]||L.low)[1]}</span></td><td>${esc(p.evidence)}</td></tr>`).join('')}</table></div>`+
+    pd.filter(p=>p.sample).map(p=>`<div class="q"><div class="hint">${esc(p.topic)}</div><div class="qtext">${esc(p.sample)}</div>${p.answer?`<details><summary>แนวคำตอบ</summary><div>${p.answer}</div></details>`:''}</div>`).join(''):'';
+  $('predict').innerHTML=`<h2>เก็งข้อสอบ</h2>${guideHtml}${analysisHtml||(!guide.length?empty('การเก็งข้อสอบ'):'')}`;
 
   go((location.hash||'#overview').slice(1));
 }

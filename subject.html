@@ -2,6 +2,15 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EE4KQJKJ57"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EE4KQJKJ57');
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ห้องติวสอบ</title>
 <link rel="stylesheet" href="shared/style.css">
@@ -15,6 +24,7 @@
 .toc a:hover{background:var(--soft)}
 .bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin:6px 0 10px}.bar i{display:block;height:100%;background:var(--good);width:0}
 .sec h3{margin-top:0}
+.modebtn.on{background:var(--ink);color:var(--paper)}
 .sec .topic{font-size:.82rem;color:var(--graphite)}
 .q{border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:12px;background:var(--paper)}
 .q .qtext{font-weight:600;margin-bottom:8px}
@@ -34,16 +44,17 @@
   <button role="tab" data-tab="overview">ติวสอบ</button>
   <button role="tab" data-tab="study">ติวเนื้อหา</button>
   <button role="tab" data-tab="practice">แบบฝึกหัด</button>
-  <button role="tab" data-tab="predict">เก็งข้อสอบ</button>
+  <button role="tab" data-tab="vocab">คำศัพท์</button>
 </div></div>
 
 <main class="wrap">
   <section class="panel" id="overview"></section>
   <section class="panel" id="study"></section>
   <section class="panel" id="practice"></section>
-  <section class="panel" id="predict"></section>
+  <section class="panel" id="vocab"></section>
 </main>
 
 <script src="shared/subject.js"></script>
+<script src="shared/site-services.js"></script>
 </body>
 </html>

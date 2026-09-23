@@ -34,11 +34,6 @@ li{margin:3px 0}
 .sec{scroll-margin-top:86px}
 .sec h3{font-size:1.22rem;margin-bottom:10px}
 .sec .t{margin:9px 0 15px}
-.study-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.study-tools .row{margin:0}
-.read-modes{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 3px}
-.reading-note{font-size:.84rem;color:var(--graphite);margin:0 0 12px}
-.read-modes+.reading-note{border-bottom:1px solid var(--line);padding-bottom:9px}
 .key{background:var(--soft);border-left:5px solid var(--hi);padding:10px 12px;border-radius:6px;margin:10px 0}
 .rule{background:var(--soft);border:1.5px solid var(--line);padding:10px 12px;border-radius:8px;margin:10px 0}
 .formula{font-family:var(--mono);font-weight:600;text-align:center;padding:10px;border:1.5px dashed var(--line);border-radius:8px;margin:10px 0;background:var(--soft)}
@@ -48,6 +43,7 @@ li{margin:3px 0}
 .hint{color:var(--graphite);font-size:.9rem}
 .btn{font:inherit;font-size:.93rem;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:5px 12px;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block}
 .btn.main{background:var(--ink);color:var(--paper)}
+.btn:disabled{opacity:.6;cursor:default}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
 .chip{display:inline-block;font-size:.8rem;font-weight:600;border-radius:999px;padding:1px 10px;border:1.5px solid var(--line)}
 .chip.ready{border-color:var(--good);color:var(--good)}
@@ -62,7 +58,13 @@ pre,code{font-family:var(--mono)}
 pre{background:var(--soft);border-radius:8px;padding:10px;overflow-x:auto;font-size:.88rem}
 details{border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--paper)}
 details summary{cursor:pointer;font-weight:600}
-.teacher-guide{border-left:5px solid var(--focus)}
-.guide-choices{margin:8px 0 10px;padding-left:2rem}
-.analysis-title{margin:28px 0 3px;font-size:1.22rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Feedback และ Analytics */
+.tutor-feedback{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:20;filter:drop-shadow(0 5px 12px rgba(0,0,0,.18))}.tutor-feedback .btn{padding:8px 13px;border-radius:999px}
+.feedback-dialog{width:min(560px,calc(100% - 28px));border:1.5px solid var(--ink);border-radius:14px;padding:0;background:var(--paper);color:var(--ink);box-shadow:0 16px 50px rgba(0,0,0,.3)}.feedback-dialog::backdrop{background:rgba(8,15,30,.66)}
+.feedback-dialog form{padding:18px}.feedback-dialog label{display:block;font-weight:600;margin:12px 0}.feedback-dialog select,.feedback-dialog textarea{display:block;width:100%;margin-top:5px;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px}.feedback-dialog textarea{resize:vertical}
+.feedback-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px}.feedback-head b{font-size:1.12rem}.feedback-head p{font-size:.9rem;color:var(--graphite);margin:2px 0}.feedback-close{border:0;background:transparent;color:var(--ink);font:400 1.8rem/1 var(--sans);cursor:pointer}.feedback-privacy{font-size:.82rem;color:var(--graphite)}.feedback-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.feedback-status{min-height:1.5em;color:var(--good);font-size:.9rem}.feedback-status b{color:var(--warn)}
+.analytics-consent{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:30;width:min(720px,calc(100% - 28px));background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;box-shadow:0 8px 24px rgba(0,0,0,.22);display:flex;gap:16px;align-items:center;justify-content:space-between}.analytics-consent p{margin:2px 0;font-size:.88rem;color:var(--graphite)}.analytics-consent .row{flex-wrap:nowrap}
+@media(max-width:640px){.analytics-consent{align-items:stretch;flex-direction:column}.analytics-consent .row{justify-content:flex-end}.tutor-feedback{bottom:12px;right:12px}}
+@media print{.tutor-feedback,.feedback-dialog{display:none!important}}

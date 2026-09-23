@@ -13,6 +13,7 @@
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ห้องติวสอบ · เลือกวิชา</title>
+<link rel="icon" href="favicon.svg">
 <link rel="stylesheet" href="shared/style.css">
 <style>
 .hero{margin:10px 0 22px}
@@ -34,7 +35,7 @@
 <div class="wrap">
   <div class="hero">
     <h1>TutorHub · สอบวันที่ 24 กันยายน</h1>
-    <p class="lead">เลือกวิชาที่จะติว แต่ละวิชามี 4 ส่วน: <b>ติวสอบ</b> · <b>ติวเนื้อหา</b> · <b>แบบฝึกหัด</b> · <b>เก็งข้อสอบ</b></p>
+    <p class="lead">เลือกวิชาที่จะติว แต่ละวิชามี 4 ส่วน: <b>เนื้อหาสอบ</b> · <b>ติวเนื้อหา</b> · <b>แบบฝึกหัด</b> · <b>เก็งข้อสอบ</b></p>
     <div class="sheet"><b>ตารางวันสอบ</b><div class="row"><span class="chip ready">09.00–11.00 · DTI286</span><span class="hint">พัก 2 ชั่วโมง</span><span class="chip ready">13.00–16.00 · PB287</span></div></div>
   </div>
   <div class="grid" id="grid"></div>
@@ -54,8 +55,9 @@ g.innerHTML=(window.SUBJECTS||[]).map(s=>{
     <div class="meta">สอบ: ${s.exam?esc(s.exam):'ยังไม่ระบุ'}</div>
     <a class="btn main open" href="${base}${t.overview}">เปิดวิชานี้</a>
     <nav class="feat" aria-label="ส่วนของ ${esc(s.code)}">
-      <a href="${base}${t.overview}">ติวสอบ</a><a href="${base}${t.study}">ติวเนื้อหา</a><a href="${base}${t.practice}">แบบฝึกหัด</a><a href="${base}${t.predict}">เก็งข้อสอบ</a>
+      <a href="${base}${t.overview}">เนื้อหาสอบ</a><a href="${base}${t.study}">ติวเนื้อหา</a><a href="${base}${t.practice}">แบบฝึกหัด</a><a href="${base}${t.predict}">เก็งข้อสอบ</a>
     </nav>
+    ${s.reviewPdf?`<a class="memory-link" href="${esc(s.reviewPdf)}" target="_blank" rel="noopener">📑 สไลด์ทบทวนความจำ</a>`:''}
   </article>`}).join('');
 </script>
 <script src="shared/site-services.js"></script>

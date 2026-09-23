@@ -67,4 +67,37 @@ details summary{cursor:pointer;font-weight:600}
 .feedback-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px}.feedback-head b{font-size:1.12rem}.feedback-head p{font-size:.9rem;color:var(--graphite);margin:2px 0}.feedback-close{border:0;background:transparent;color:var(--ink);font:400 1.8rem/1 var(--sans);cursor:pointer}.feedback-privacy{font-size:.82rem;color:var(--graphite)}.feedback-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.feedback-status{min-height:1.5em;color:var(--good);font-size:.9rem}.feedback-status b{color:var(--warn)}
 .analytics-consent{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:30;width:min(720px,calc(100% - 28px));background:var(--paper);border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;box-shadow:0 8px 24px rgba(0,0,0,.22);display:flex;gap:16px;align-items:center;justify-content:space-between}.analytics-consent p{margin:2px 0;font-size:.88rem;color:var(--graphite)}.analytics-consent .row{flex-wrap:nowrap}
 @media(max-width:640px){.analytics-consent{align-items:stretch;flex-direction:column}.analytics-consent .row{justify-content:flex-end}.tutor-feedback{bottom:12px;right:12px}}
-@media print{.tutor-feedback,.feedback-dialog{display:none!important}}
+#printRoot{display:none}
+.pdfbtn{border-color:var(--focus);color:var(--focus)}
+.memory-link{font-size:.9rem;font-weight:600;text-decoration:none;color:var(--focus);align-self:flex-start}
+.memory-link:hover,.memory-review:hover{text-decoration:underline}
+@media print{
+  @page{size:A4;margin:16mm 14mm 18mm}
+  body.printing{background:#fff!important;color:#111!important;font-family:var(--sans)!important;font-size:11pt;line-height:1.5}
+  body.printing>*:not(#printRoot){display:none!important}
+  body.printing #printRoot{display:block!important;background:#fff!important;color:#111!important;width:100%}
+  body.printing #printRoot .print-head{border-bottom:2px solid #1b2a4a;margin-bottom:9mm;padding-bottom:4mm}
+  body.printing #printRoot .print-head h1{font-size:18pt;margin:0 0 2mm}
+  body.printing #printRoot .print-head p{margin:0;color:#4b5563}
+  body.printing #printRoot .print-code{font-weight:700;color:#2f6feb;letter-spacing:.04em}
+  body.printing #printRoot .print-section{break-before:page;page-break-before:always}
+  body.printing #printRoot .print-section:first-child{break-before:auto;page-break-before:auto}
+  body.printing #printRoot .print-section h2{font-size:16pt;margin:0 0 4mm}
+  body.printing #printRoot .topic{color:#5a6270;font-size:9pt}
+  body.printing #printRoot table,
+  body.printing #printRoot tr,
+  body.printing #printRoot .key,
+  body.printing #printRoot .rule,
+  body.printing #printRoot .formula,
+  body.printing #printRoot pre,
+  body.printing #printRoot details{break-inside:avoid;page-break-inside:avoid}
+  body.printing #printRoot thead{display:table-header-group}
+  body.printing #printRoot .key,
+  body.printing #printRoot .rule,
+  body.printing #printRoot .formula,
+  body.printing #printRoot .t th{background:#f3f7fc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.printing #printRoot a{text-decoration:none;color:#111}
+  body.printing #printRoot .print-page-number{position:fixed;right:0;bottom:-11mm;font-size:9pt;color:#5a6270}
+  body.printing #printRoot .print-page-number::after{content:"หน้า " counter(page)}
+  .tutor-feedback,.feedback-dialog{display:none!important}
+}

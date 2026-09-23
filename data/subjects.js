@@ -17,13 +17,15 @@ window.SUBJECTS = [
     code: "DTI286",
     name: "โหมดของประสบการณ์มนุษย์ (Modes of Human Experience)",
     exam: "พฤหัสบดี 24 ก.ย. 2569 · 09.00–11.00",
-    status: "ready"
+    status: "ready",
+    reviewPdf: "dti286-memory-review.pdf"
   },
   {
     id: "pb287",
     code: "PB287",
     name: "การเตรียมความพร้อมและการตอบโต้ภัยพิบัติ (Disaster Preparedness and Response)",
     exam: "พฤหัสบดี 24 ก.ย. 2569 · 13.00–16.00",
-    status: "ready"
+    status: "ready",
+    reviewPdf: "pb287-memory-review.pdf"
   }
 ];

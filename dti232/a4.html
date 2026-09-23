@@ -47,6 +47,27 @@ b{font-weight:700}
   .page{margin:0;box-shadow:none;page-break-after:always}.page:last-child{page-break-after:auto}
   .col.over{box-shadow:none}
 }
+a{color:inherit}
+.tutor-feedback{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:20;filter:drop-shadow(0 5px 12px rgba(0,0,0,.18))}
+.tutor-feedback .btn{font:600 14px P,"Sukhumvit Set",Tahoma,sans-serif;padding:8px 13px;border:1.5px solid #1B2A4A;border-radius:999px;background:#1B2A4A;color:#fff;cursor:pointer}
+.feedback-dialog{width:min(560px,calc(100% - 28px));border:1.5px solid #1B2A4A;border-radius:14px;padding:0;background:#fff;color:#1B2A4A;box-shadow:0 16px 50px rgba(0,0,0,.3);font:16px/1.55 P,"Sukhumvit Set",Tahoma,sans-serif}
+.feedback-dialog::backdrop{background:rgba(8,15,30,.66)}
+.feedback-dialog form{padding:18px}
+.feedback-dialog label{display:block;font-weight:600;margin:12px 0}
+.feedback-dialog select,.feedback-dialog textarea{box-sizing:border-box;display:block;width:100%;margin-top:5px;font:inherit;color:#111;background:#fff;border:1.5px solid #C9D3E0;border-radius:8px;padding:8px 10px}
+.feedback-dialog textarea{resize:vertical}
+.feedback-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;border-bottom:1px solid #C9D3E0;padding-bottom:10px}
+.feedback-head b{font-size:1.12rem}
+.feedback-head p{font-size:.9rem;color:#5A6270;margin:2px 0}
+.feedback-close{border:0;background:transparent;color:#1B2A4A;font:400 1.8rem/1 P,"Sukhumvit Set",Tahoma,sans-serif;cursor:pointer}
+.feedback-privacy{font-size:.82rem;color:#5A6270}
+.feedback-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.feedback-actions .btn{font:600 14px P,"Sukhumvit Set",Tahoma,sans-serif;padding:7px 12px;border:1.5px solid #1B2A4A;border-radius:8px;background:#fff;color:#1B2A4A;cursor:pointer}
+.feedback-actions .btn.main{background:#1B2A4A;color:#fff}
+.feedback-actions .btn:disabled{opacity:.6;cursor:default}
+.feedback-status{min-height:1.5em;color:#34A56F;font-size:.9rem}
+.feedback-status b{color:#C2410C}
+@media print{.tutor-feedback,.feedback-dialog{display:none!important}}
 </style></head><body>
 <div class="bar" id="bar">
   <b>A4 เข้าห้องสอบ — คลิกที่ข้อความเพื่อแก้ไขได้เลย</b>

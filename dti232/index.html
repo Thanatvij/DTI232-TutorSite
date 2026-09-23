@@ -121,6 +121,12 @@ footer{max-width:1200px;margin:0 auto;padding:0 16px 30px;color:var(--graphite);
 .tag{font-size:.8rem;border-radius:999px;padding:1px 8px;border:1px solid var(--line);white-space:nowrap}
 .tag.in{background:color-mix(in srgb,var(--explored) 20%,transparent)}.tag.out{color:var(--graphite)}
 @media (prefers-reduced-motion:reduce){.bar2{transition:none}}
+a{color:inherit}
+.tutor-feedback{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:20;filter:drop-shadow(0 5px 12px rgba(0,0,0,.18))}.tutor-feedback .btn{padding:8px 13px;border-radius:999px}
+.feedback-dialog{width:min(560px,calc(100% - 28px));border:1.5px solid var(--ink);border-radius:14px;padding:0;background:var(--paper);color:var(--ink);box-shadow:0 16px 50px rgba(0,0,0,.3)}.feedback-dialog::backdrop{background:rgba(8,15,30,.66)}
+.feedback-dialog form{padding:18px}.feedback-dialog label{display:block;font-weight:600;margin:12px 0}.feedback-dialog select,.feedback-dialog textarea{display:block;width:100%;margin-top:5px;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px}.feedback-dialog textarea{resize:vertical}
+.feedback-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:10px}.feedback-head b{font-size:1.12rem}.feedback-head p{font-size:.9rem;color:var(--graphite);margin:2px 0}.feedback-close{border:0;background:transparent;color:var(--ink);font:400 1.8rem/1 var(--sans);cursor:pointer}.feedback-privacy{font-size:.82rem;color:var(--graphite)}.feedback-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.feedback-status{min-height:1.5em;color:var(--explored);font-size:.9rem}.feedback-status b{color:var(--warn)}
+@media print{.tutor-feedback,.feedback-dialog{display:none!important}}
 </style>
 </head>
 <body>
